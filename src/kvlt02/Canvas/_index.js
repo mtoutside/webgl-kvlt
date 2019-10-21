@@ -68,17 +68,17 @@ export default class Canvas {
   }
 
   init() {
-      scene = new Scene();
-      // userDataに入れておく
+    scene = new Scene();
+    // userDataに入れておく
 
-      // Cameraを作成
-      camera = new PerspectiveCamera(
-        60,
-        Config.width / Config.height,
-        0.001,
-        10000
-      );
-      camera.position.set(0, 0, Config.cameraZ);
+    // Cameraを作成
+    camera = new PerspectiveCamera(
+      60,
+      Config.width / Config.height,
+      0.001,
+      10000
+    );
+    camera.position.set(0, 0, Config.cameraZ);
     // レンダリング開始
 
     this.createMesh();
@@ -87,11 +87,15 @@ export default class Canvas {
   }
 
   createMesh() {
-
     const segment = 1;
     let resolution = Config.width / Config.height;
 
-    geometry = new PlaneBufferGeometry(Config.width, Config.height, segment, segment);
+    geometry = new PlaneBufferGeometry(
+      Config.width,
+      Config.height,
+      segment,
+      segment
+    );
 
     // テクスチャの作成
     /*
@@ -141,27 +145,27 @@ export default class Canvas {
 
     // 中央にテキストを描画
     ctx.font = `bold ${options.fontSize * Config.dpr}px 'Ubuntu Condensed'`;
-      // ctx.font = `bold ${options.fontSize * Config.dpr}px UnifrakturCook` なぜか読み込めない
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillStyle = 'rgba(255, 255, 255, 1.0)';
-      ctx.fillText(options.text, width / 2, height / 2);
-      console.log(ctx);
+    // ctx.font = `bold ${options.fontSize * Config.dpr}px UnifrakturCook` なぜか読み込めない
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillStyle = 'rgba(255, 255, 255, 1.0)';
+    ctx.fillText(options.text, width / 2, height / 2);
+    console.log(ctx);
 
-      // 文字の輪郭だけ描画
-      // ctx.strokeStyle = 'rgba(255, 255, 255, 1.0)'
-      // ctx.strokeText(options.text.toUpperCase(), width / 2, height / 2)
+    // 文字の輪郭だけ描画
+    // ctx.strokeStyle = 'rgba(255, 255, 255, 1.0)'
+    // ctx.strokeText(options.text.toUpperCase(), width / 2, height / 2)
 
-      // テクスチャを作成
-      const texture = new CanvasTexture(canvas);
-      texture.needsUpdate = false;
-      // 2のべき乗サイズでなくてもエラーがでなくなるようにフィルターを指定
-      texture.minFilter = LinearFilter;
-      texture.magFilter = LinearFilter;
-      texture.format = RGBAFormat;
+    // テクスチャを作成
+    const texture = new CanvasTexture(canvas);
+    texture.needsUpdate = false;
+    // 2のべき乗サイズでなくてもエラーがでなくなるようにフィルターを指定
+    texture.minFilter = LinearFilter;
+    texture.magFilter = LinearFilter;
+    texture.format = RGBAFormat;
 
-      return texture;
-    }
+    return texture;
+  }
 
   setConfig() {
     // 親要素のサイズを取得
