@@ -14,11 +14,11 @@ void main() {
   // 0-1で変化するtweenを0-1-0に変換する
 
   float t = time * speed;
-  /* uv.x += .005 * (sin(wd * uv.y + t)); // x軸に対してy軸ずらす */
-  /* uv.y += .005 * (sin(wd * uv.x + t)); // y軸に対してx軸ずらす */
+  uv.x += .005 * (sin(wd * uv.y + t)); // x軸に対してy軸ずらす
+  uv.y += .005 * (sin(wd * uv.x + t)); // y軸に対してx軸ずらす
 
-  uv = uv.st / resolution;
-  uv *= 3.0;
+  /* uv = uv / 1.6; */
+  uv *= 20.0;
   uv = fract(uv);
   vec4 color = texture2D(texture, uv);
 
@@ -26,6 +26,5 @@ void main() {
   /* color = fract(color); */
 
 
-  /* gl_FragColor = vec4(color); */
   gl_FragColor = vec4(color);
 }

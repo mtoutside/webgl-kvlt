@@ -7,8 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // フォントを読み込んでからCanvasを作成する
   WebFontLoader.load({
     google: {
-      families: ['Ubuntu Condensed'],
-      // families: ['UnifrakturCook'],
+      // families: ['Ubuntu Condensed'],
+      families: ['UnifrakturCook:700'],
     },
     active: () => {
       new Canvas();
