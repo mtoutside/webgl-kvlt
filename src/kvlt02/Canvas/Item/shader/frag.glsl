@@ -18,13 +18,15 @@ void main() {
   uv.y += .005 * (sin(wd * uv.x + t)); // y軸に対してx軸ずらす
 
   /* uv = uv / 1.6; */
-  uv *= 20.0;
-  uv = fract(uv);
+  uv = uv.xy / resolution;
+  /* uv *= .5; */
+  /* uv = fract(uv); */
   vec4 color = texture2D(texture, uv);
 
   /* color *= 3.0; */
   /* color = fract(color); */
 
 
-  gl_FragColor = vec4(color);
+  /* gl_FragColor = vec4(color); */
+  gl_FragColor = vec4(uv, .0, 1.0);
 }

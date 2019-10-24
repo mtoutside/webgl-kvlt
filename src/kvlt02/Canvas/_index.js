@@ -1,5 +1,6 @@
 import { Scene } from 'three/src/scenes/Scene';
 import { PerspectiveCamera } from 'three/src/cameras/PerspectiveCamera';
+import { OrthographicCamera } from 'three/src/cameras/OrthographicCamera';
 import { WebGLRenderer } from 'three/src/renderers/WebGLRenderer';
 import { Mesh } from 'three/src/objects/Mesh';
 import { PlaneBufferGeometry } from 'three/src/geometries/PlaneGeometry';
@@ -35,15 +36,9 @@ pane.addInput(PARAMS, 'speed', {
 });
 
 let geometry, mesh, material, camera, scene;
-// BaseCanvasを継承したCanvasクラスを作成
 export default class Canvas {
   constructor() {
-    // Canvasを囲う親要素を取得
     this.container = document.getElementById('CanvasContainer');
-    // this.width = window.innerWidth;
-    // this.height = window.innerHeight;
-
-    // Configを設定
     this.setConfig();
 
     // レンダラを作成
@@ -72,12 +67,14 @@ export default class Canvas {
     // userDataに入れておく
 
     // Cameraを作成
-    camera = new PerspectiveCamera(
-      60,
-      Config.width / Config.height,
-      0.001,
-      10000
-    );
+    // camera = new PerspectiveCamera(
+    //   60,
+    //   Config.width / Config.height,
+    //   0.01,
+    //   10000
+    // );
+
+    camera = new OrthographicCamera(-1, 1, 1, -1, 0, -1);
     camera.position.set(0, 0, Config.cameraZ);
     // レンダリング開始
 
@@ -89,6 +86,7 @@ export default class Canvas {
   createMesh() {
     const segment = 1;
     let resolution = Config.width / Config.height;
+    console.log(resolution);
 
     geometry = new PlaneBufferGeometry(
       Config.width,
@@ -150,7 +148,6 @@ export default class Canvas {
     ctx.textBaseline = 'middle';
     ctx.fillStyle = 'rgba(255, 255, 255, 1.0)';
     ctx.fillText(options.text, width / 2, height / 2);
-    console.log(ctx);
 
     // 文字の輪郭だけ描画
     // ctx.strokeStyle = 'rgba(255, 255, 255, 1.0)'
@@ -159,7 +156,6 @@ export default class Canvas {
     // テクスチャを作成
     const texture = new CanvasTexture(canvas);
     texture.needsUpdate = false;
-    // 2のべき乗サイズでなくてもエラーがでなくなるようにフィルターを指定
     texture.minFilter = LinearFilter;
     texture.magFilter = LinearFilter;
     texture.format = RGBAFormat;
@@ -170,6 +166,7 @@ export default class Canvas {
   setConfig() {
     // 親要素のサイズを取得
     const domRect = this.container.getBoundingClientRect();
+    console.log(domRect)
     const width = domRect.width;
     const height = domRect.height;
 
@@ -203,6 +200,8 @@ export default class Canvas {
     material.uniforms.time.value = time;
     material.uniforms.wd.value = PARAMS.wd;
     material.uniforms.speed.value = PARAMS.speed;
+
+    // camera.position.z += 0.6;
     // 今のsceneをcameraでレンダリングする
     this.renderer.render(scene, camera);
   }
