@@ -15,6 +15,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 // シェーダーファイルをimport
 import vertexShader from './shader/vert.glsl';
 import fragmentShader from './shader/frag.glsl';
+/* eslint no-unused-vars: 0 */
 import MyShaderChunk from './shader/MyShaderChunks';
 
 import Config from './_Config';
