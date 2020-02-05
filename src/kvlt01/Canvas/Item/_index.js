@@ -64,7 +64,8 @@ export default class Item extends Mesh {
       transparent: true,
     });
 
-    element.addEventListener('mouseenter', () => {
+    element.addEventListener('pointerenter', e => {
+      e.preventDefault();
       const uniforms = this.material.uniforms;
 
       TweenMax.to(uniforms.tween, 1.0, {
@@ -73,7 +74,7 @@ export default class Item extends Mesh {
       });
     });
 
-    element.addEventListener('mouseleave', () => {
+    element.addEventListener('pointerleave', () => {
       const uniforms = this.material.uniforms;
 
       TweenMax.to(uniforms.tween, 1.0, {
