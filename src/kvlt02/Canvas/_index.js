@@ -166,7 +166,7 @@ export default class Canvas {
   setConfig() {
     // 親要素のサイズを取得
     const domRect = this.container.getBoundingClientRect();
-    console.log(domRect)
+    console.log(domRect);
     const width = domRect.width;
     const height = domRect.height;
 
