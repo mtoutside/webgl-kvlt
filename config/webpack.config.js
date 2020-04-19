@@ -46,16 +46,16 @@ module.exports = {
     ],
   },
 
-  optimization: {
-    splitChunks: {
-      cacheGroups: {
-        vendor: {
-          test: /node_modules/,
-          name: 'vendor.js',
-          chunks: 'initial',
-          enforce: true,
-        },
-      },
-    },
-  },
+  // optimization: {
+  //   splitChunks: {
+  //     cacheGroups: {
+  //       vendor: {
+  //         test: /node_modules/,
+  //         name: 'vendor.js',
+  //         chunks: 'initial',
+  //         enforce: true,
+  //       },
+  //     },
+  //   },
+  // },
 };
