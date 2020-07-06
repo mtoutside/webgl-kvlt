@@ -100,7 +100,7 @@ export default class Canvas {
 
     const content = document.getElementById('content');
 
-    for(let i = 0; i < 40; i++) {
+    for(let i = 0; i < 4; i++) {
       this.scene = new THREE.Scene();
 
       let element = document.createElement('div');
@@ -152,6 +152,7 @@ export default class Canvas {
       light.position.set(1, 1, 1);
       this.scene.add(light);
       this.scenes.push(this.scene);
+      console.log(this.scenes);
     }
 
   }
@@ -216,7 +217,7 @@ export default class Canvas {
       let width = rect.right - rect.left;
       let height = rect.bottom - rect.top;
       let left = rect.left;
-      let bottom = this.renderer.domElement.clientHeight - rect. bottom;
+      let bottom = this.renderer.domElement.clientHeight - rect.bottom;
 
       this.renderer.setViewport(left, bottom, width, height);
       this.renderer.setScissor(left, bottom, width, height);
