@@ -78,7 +78,12 @@ export default class Canvas {
   }
 
   resizeScene() {
-    this.renderer.setSize(Config.width, Config.height);
+    const width = this.container.clientWidth;
+    const height = this.container.clientHeight;
+
+    if (width !== Config.width || height !== Config.height) {
+      this.renderer.setSize(width, height, false);
+    }
   }
 
   init() {
@@ -92,7 +97,7 @@ export default class Canvas {
   createGeo() {
     const content = document.getElementById('content');
 
-    for (let i = 0; i < 14; i++) {
+    for (let i = 0; i < 35; i++) {
       this.scene = new THREE.Scene();
 
       let element = document.createElement('div');
@@ -150,8 +155,6 @@ export default class Canvas {
       this.scene.add(light);
       this.scenes.push(this.scene);
     }
-    console.log(this.scenes);
-
   }
 
   textex() {
@@ -191,7 +194,7 @@ export default class Canvas {
   update() {
     requestAnimationFrame(this.updateFunction);
 
-    this.renderer.domElement.style.transform = `translate3d(0, ${window.scrollY}px, 0)`;
+    this.container.style.transform = `translate3d(0, ${window.scrollY}px, 0)`;
     this.renderer.setClearColor(0xffffff);
     this.renderer.setScissorTest(false);
     this.renderer.clear();
@@ -206,15 +209,15 @@ export default class Canvas {
 
       let rect = element.getBoundingClientRect();
 
-      if(rect.bottom < 0 || rect.top > this.renderer.domElement.clientHeight ||
-        rect.right < 0 || rect.left > this.renderer.domElement.clientWidth) {
+      if (rect.bottom < 0 || rect.top > this.renderer.domElement.clientHeight ||
+          rect.right < 0 || rect.left > this.renderer.domElement.clientWidth) {
         return;
       }
 
       let width = rect.right - rect.left;
       let height = rect.bottom - rect.top;
       let left = rect.left;
-      let bottom = this.renderer.domElement.clientHeight - rect.bottom;
+      let bottom = this.container.clientHeight - rect.bottom;
 
       this.renderer.setViewport(left, bottom, width, height);
       this.renderer.setScissor(left, bottom, width, height);
@@ -222,7 +225,5 @@ export default class Canvas {
       let camera = sceneElm.userData.camera;
       this.renderer.render(sceneElm, camera);
     });
-
-
   }
 }
