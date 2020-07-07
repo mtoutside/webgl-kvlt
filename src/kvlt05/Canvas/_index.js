@@ -114,16 +114,14 @@ export default class Canvas {
       content.appendChild(element);
 
       // Cameraを作成
-      this.camera = new THREE.PerspectiveCamera(
-        50,
-        1,
-        1,
-        10
-      );
+      this.camera = new THREE.PerspectiveCamera(50, 1, 1, 10);
       this.camera.position.set(0, 0, 2);
       this.scene.userData.camera = this.camera;
 
-      this.controls = new OrbitControls(this.scene.userData.camera, this.scene.userData.element);
+      this.controls = new OrbitControls(
+        this.scene.userData.camera,
+        this.scene.userData.element
+      );
       this.controls.minDistane = 2;
       this.controls.maxDistane = 5;
       this.controls.enablePan = false;
@@ -137,7 +135,7 @@ export default class Canvas {
         new THREE.CylinderBufferGeometry(0.5, 0.5, 1, 12),
       ];
 
-      let geometoriesIndex = this.geometories.length * Math.random() | 0;
+      let geometoriesIndex = (this.geometories.length * Math.random()) | 0;
       this.geometry = this.geometories[geometoriesIndex];
 
       this.material = new THREE.MeshStandardMaterial({
@@ -209,8 +207,12 @@ export default class Canvas {
 
       let rect = element.getBoundingClientRect();
 
-      if (rect.bottom < 0 || rect.top > this.renderer.domElement.clientHeight ||
-          rect.right < 0 || rect.left > this.renderer.domElement.clientWidth) {
+      if (
+        rect.bottom < 0 ||
+        rect.top > this.renderer.domElement.clientHeight ||
+        rect.right < 0 ||
+        rect.left > this.renderer.domElement.clientWidth
+      ) {
         return;
       }
 

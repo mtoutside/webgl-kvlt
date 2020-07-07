@@ -104,8 +104,7 @@ export default class Canvas {
     this.clock = new THREE.Clock();
     // this.textex();
 
-    this.initFloatingChars()
-    .then(() => {
+    this.initFloatingChars().then(() => {
       this.start();
     });
 
@@ -138,10 +137,10 @@ export default class Canvas {
   }
 
   initFloatingChars() {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       WebFontLoader.load({
         google: {
-          families: [ 'Cabin Sketch' ]
+          families: ['Cabin Sketch'],
         },
         active: () => {
           console.log('font loaded');
@@ -157,7 +156,7 @@ export default class Canvas {
 
           this.scene.add(this.floatingChars);
           resolve();
-        }
+        },
       });
     });
   }

@@ -27,10 +27,10 @@ class FloatingChars extends THREE.Mesh {
         textureTxtLength: { type: '1f', value: 1 },
         animationValue1: { type: '1f', value: 1 },
         animationValue2: { type: '1f', value: 0 },
-        animationValue3: { type: '1f', value: 0 }
+        animationValue3: { type: '1f', value: 0 },
       },
       vertexShader: vertexShader,
-      fragmentShader: fragmentShader
+      fragmentShader: fragmentShader,
     });
   }
 
@@ -40,30 +40,37 @@ class FloatingChars extends THREE.Mesh {
 
   createTexture(txt, fontFamily) {
     const textureTxtLength = txt.length;
-    const numTextureGridRows = Math.ceil(textureTxtLength / this.numTexturesGridCols);
+    const numTextureGridRows = Math.ceil(
+      textureTxtLength / this.numTexturesGridCols
+    );
 
     this.txtCanvas = document.createElement('canvas');
     this.txtCanvasCtx = this.txtCanvas.getContext('2d');
     this.txtCanvas.width = this.textureGridsize * this.numTexturesGridCols;
     this.txtCanvas.height = this.textureGridsize * numTextureGridRows;
 
-
-    this.txtCanvasCtx.clearRect(0, 0, this.txtCanvas.width, this.txtCanvas.height);
-    this.txtCanvasCtx.font = `normal ${this.textureGridsize * 0.8}px ${fontFamily}`;
+    this.txtCanvasCtx.clearRect(
+      0,
+      0,
+      this.txtCanvas.width,
+      this.txtCanvas.height
+    );
+    this.txtCanvasCtx.font = `normal ${this.textureGridsize *
+      0.8}px ${fontFamily}`;
     this.txtCanvasCtx.textAlign = 'center';
     this.txtCanvasCtx.fillStyle = '#ffffff';
 
     let colIndex;
     let rowIndex;
 
-    for(let i = 0, l = textureTxtLength; i < l; i++) {
+    for (let i = 0, l = textureTxtLength; i < l; i++) {
       colIndex = i % this.numTexturesGridCols;
       rowIndex = Math.floor(i / this.numTexturesGridCols);
 
       this.txtCanvasCtx.fillText(
         txt.charAt(i),
-        colIndex * this.textureGridsize+ this.textureGridsize / 2,
-        rowIndex * this.textureGridsize+ this.textureGridsize * 0.8,
+        colIndex * this.textureGridsize + this.textureGridsize / 2,
+        rowIndex * this.textureGridsize + this.textureGridsize * 0.8,
         this.textureGridsize
       );
     }
