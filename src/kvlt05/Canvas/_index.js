@@ -5,7 +5,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 /* eslint no-unused-vars: 0 */
-import MyShaderChunk from './shader/MyShaderChunks';
+// import MyShaderChunk from './shader/MyShaderChunks';
 import fragmentShader from './shader/frag.glsl';
 import vertexShader from './shader/vert.glsl';
 
@@ -39,7 +39,6 @@ export default class Canvas {
     // Canvasを囲う親要素を取得
     this.container = document.getElementById('CanvasContainer');
     this.scenes = [];
-
     // Configを設定
     this.setConfig();
 
@@ -84,12 +83,6 @@ export default class Canvas {
 
   init() {
     this.clock = new THREE.Clock();
-    this.geometories = [
-      new THREE.BoxBufferGeometry(1, 1, 1),
-      new THREE.SphereBufferGeometry(0.5, 12, 8),
-      new THREE.DodecahedronBufferGeometry(0.5),
-      new THREE.CylinderBufferGeometry(0.5, 0.5, 1, 12)
-    ];
     this.createGeo();
 
     // レンダリング開始
@@ -97,10 +90,9 @@ export default class Canvas {
   }
 
   createGeo() {
-
     const content = document.getElementById('content');
 
-    for(let i = 0; i < 4; i++) {
+    for (let i = 0; i < 14; i++) {
       this.scene = new THREE.Scene();
 
       let element = document.createElement('div');
@@ -133,16 +125,21 @@ export default class Canvas {
       this.controls.enableZoom = false;
       this.scene.userData.controls = this.controls;
 
-      // let geometry = this.geometries[this.geometories.length * Math.random() | 0];
-      // console.log(this.geometories[0]);
-      // let geometry = this.geometries[0];
-      this.geometry = new THREE.BoxBufferGeometry(1, 1, 1);
+      this.geometories = [
+        new THREE.BoxBufferGeometry(1, 1, 1),
+        new THREE.SphereBufferGeometry(0.5, 12, 8),
+        new THREE.DodecahedronBufferGeometry(0.5),
+        new THREE.CylinderBufferGeometry(0.5, 0.5, 1, 12),
+      ];
+
+      let geometoriesIndex = this.geometories.length * Math.random() | 0;
+      this.geometry = this.geometories[geometoriesIndex];
 
       this.material = new THREE.MeshStandardMaterial({
         color: new THREE.Color().setHSL(Math.random(), 1, 0.75),
         roughness: 0.5,
         metalness: 0,
-        flatShading: true
+        flatShading: true,
       });
 
       this.scene.add(new THREE.Mesh(this.geometry, this.material));
@@ -152,8 +149,8 @@ export default class Canvas {
       light.position.set(1, 1, 1);
       this.scene.add(light);
       this.scenes.push(this.scene);
-      console.log(this.scenes);
     }
+    console.log(this.scenes);
 
   }
 
@@ -202,10 +199,10 @@ export default class Canvas {
     this.renderer.setClearColor(0xe0e0e0);
     this.renderer.setScissorTest(true);
 
-    this.scenes.forEach(scene => {
-      this.scene.children[0].rotation.y = Date.now() * 0.001;
+    this.scenes.forEach(sceneElm => {
+      sceneElm.children[0].rotation.y = Date.now() * 0.001;
 
-      let element = this.scene.userData.element;
+      let element = sceneElm.userData.element;
 
       let rect = element.getBoundingClientRect();
 
@@ -222,8 +219,8 @@ export default class Canvas {
       this.renderer.setViewport(left, bottom, width, height);
       this.renderer.setScissor(left, bottom, width, height);
 
-      let camera = this.scene.userData.camera;
-      this.renderer.render(this.scene, camera);
+      let camera = sceneElm.userData.camera;
+      this.renderer.render(sceneElm, camera);
     });
 
 
