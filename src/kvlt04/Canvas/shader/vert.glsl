@@ -102,22 +102,29 @@ void main() {
   // animation2
   //
 
+  float numRings = 8.0;
+  float ringIndex = mod(charIndex, numRings);
+  float numCharasPerRing = numChars / numRings;
+
+  pos.y += animationValue2 * map(ringIndex, 0.0, numRings -1.0, -60.0, 60.0, true);
   pos.z += animationValue2 * radius;
-  theta = getRad(4.0, randomValues.x * 20.0);
+
+  theta = getRad(10.0, PI * 2.0 / numCharasPerRing * mod((charIndex - ringIndex) / numRings, numCharasPerRing));
   pos = rotateVec3(pos, animationValue2 * theta, vec3(0.0, 1.0, 0.0));
-  theta = getRad(4.0, randomValues.y * 20.0);
-  pos = rotateVec3(pos, animationValue2 * theta, vec3(1.0, 0.0, 0.0));
-  theta = getRad(4.0, randomValues.z * 20.0);
-  pos = rotateVec3(pos, animationValue2 * theta, vec3(0.0, 0.0, 1.0));
+
 
 
   //
   // animation3
   //
 
-  pos.x += animationValue3 * 20.0 * (charIndex - (numChars - 1.0) * 0.5);
-  theta = getRad(20.0, charIndex * 20.0);
+  pos.z += animationValue3 * radius;
+  theta = getRad(6.0, randomValues.x * 10.0);
+  pos = rotateVec3(pos, animationValue3 * theta, vec3(0.0, 1.0, 0.0));
+  theta = getRad(6.0, randomValues.y * 10.0);
   pos = rotateVec3(pos, animationValue3 * theta, vec3(1.0, 0.0, 0.0));
+  theta = getRad(6.0, randomValues.z * 10.0);
+  pos = rotateVec3(pos, animationValue3 * theta, vec3(0.0, 0.0, 1.0));
 
   //
   // フラグメントシェーダーに渡すUV座標を計算
