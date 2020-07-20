@@ -6,11 +6,11 @@ import vertexShader from './shader/vert.glsl';
 import fragmentShader from './shader/frag.glsl';
 
 class FloatingChars extends THREE.Mesh {
-  constructor(numChars, charWidth, numTexturesGridCols, textureGridsize) {
+  constructor(numChars, charWidth, numTextureGridCols, textureGridsize) {
     super();
     this.numChars = numChars;
     this.charWidth = charWidth;
-    this.numTexturesGridCols = numTexturesGridCols;
+    this.numTextureGridCols = numTextureGridCols;
     this.textureGridsize = textureGridsize;
 
     this.geoClass = new FloatingCharsGeometry(this.numChars, this.charWidth);
@@ -41,12 +41,12 @@ class FloatingChars extends THREE.Mesh {
   createTexture(txt, fontFamily) {
     const textureTxtLength = txt.length;
     const numTextureGridRows = Math.ceil(
-      textureTxtLength / this.numTexturesGridCols
+      textureTxtLength / this.numTextureGridCols
     );
 
     this.txtCanvas = document.createElement('canvas');
     this.txtCanvasCtx = this.txtCanvas.getContext('2d');
-    this.txtCanvas.width = this.textureGridsize * this.numTexturesGridCols;
+    this.txtCanvas.width = this.textureGridsize * this.numTextureGridCols;
     this.txtCanvas.height = this.textureGridsize * numTextureGridRows;
 
     this.txtCanvasCtx.clearRect(
@@ -64,8 +64,8 @@ class FloatingChars extends THREE.Mesh {
     let rowIndex;
 
     for (let i = 0, l = textureTxtLength; i < l; i++) {
-      colIndex = i % this.numTexturesGridCols;
-      rowIndex = Math.floor(i / this.numTexturesGridCols);
+      colIndex = i % this.numTextureGridCols;
+      rowIndex = Math.floor(i / this.numTextureGridCols);
 
       this.txtCanvasCtx.fillText(
         txt.charAt(i),
@@ -85,9 +85,9 @@ class FloatingChars extends THREE.Mesh {
     this.material.uniforms.numTextureGridRows.value = numTextureGridRows;
     this.material.uniforms.textureTxtLength.value = textureTxtLength;
 
-    document.body.appendChild(this.txtCanvas);
-    this.txtCanvas.style.backgroundColor = '#333';
-    this.txtCanvas.style.position = 'relative';
+    // document.body.appendChild(this.txtCanvas);
+    // this.txtCanvas.style.backgroundColor = '#333';
+    // this.txtCanvas.style.position = 'relative';
   }
 
   setUniform(uniformKey, value) {

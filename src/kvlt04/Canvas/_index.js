@@ -35,10 +35,11 @@ pane.addInput(PARAMS, 'speed', {
 });
 
 export default class Canvas {
-  constructor(numChars, charWidth, numTexturesGridCols, textureGridSize) {
-    this.numChars = numChars || 10;
-    this.charWidth = charWidth || 32;
-    this.numTexturesGridCols = numTexturesGridCols || 1;
+  // TODO: 問題なく動いたらfontfamily 追加
+  constructor(numChars, charWidth, numTextureGridCols, textureGridSize) {
+    this.numChars = numChars || 1000;
+    this.charWidth = charWidth || 4;
+    this.numTextureGridCols = numTextureGridCols || 16;
     this.textureGridSize = textureGridSize || 128;
     this.animationValue1 = 1;
     this.animationValue2 = 0;
@@ -112,6 +113,7 @@ export default class Canvas {
     // this.start();
   }
 
+  /*
   textex() {
     this.resolution = Config.width / Config.height;
     this.geometry = new THREE.PlaneGeometry(50, 50);
@@ -135,6 +137,7 @@ export default class Canvas {
     // metaballごとのSceneにmetaballを追加
     this.scene.add(this.textex);
   }
+  */
 
   initFloatingChars() {
     return new Promise(resolve => {
@@ -147,11 +150,11 @@ export default class Canvas {
           this.floatingChars = new FloatingChars(
             this.numChars,
             this.charWidth,
-            this.numTexturesGridCols,
+            this.numTextureGridCols,
             this.textureGridSize
           );
 
-          this.floatingChars.createTexture('B', 'Cabin Sketch');
+          this.floatingChars.createTexture('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+-=[]{}|:;?<>,.', 'Cabin Sketch');
           console.log(this.floatingChars);
 
           this.scene.add(this.floatingChars);
