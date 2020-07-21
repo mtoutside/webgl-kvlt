@@ -6,33 +6,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import FloatingChars from './_fc';
 import WebFontLoader from 'webfontloader';
 
-/* eslint no-unused-vars: 0 */
-import MyShaderChunk from './shader/MyShaderChunks';
-
 import Config from './_Config';
-import Tweakpane from 'tweakpane';
-
-// Tweakpaneの設定
-const pane = new Tweakpane();
-const PARAMS = {
-  wd: 10.0,
-  wd2: 0.5,
-  speed: 2.0,
-};
-pane.addInput(PARAMS, 'wd', {
-  label: 'detail',
-  min: 0.1,
-  max: 20.0,
-});
-pane.addInput(PARAMS, 'wd2', {
-  label: 'detail2',
-  min: 0.1,
-  max: 10.0,
-});
-pane.addInput(PARAMS, 'speed', {
-  min: 0.1,
-  max: 10.0,
-});
 
 export default class Canvas {
   // TODO: 問題なく動いたらfontfamily 追加

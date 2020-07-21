@@ -1,9 +1,33 @@
 import * as THREE from 'three';
 import FloatingCharsGeometry from './_fcg';
+import Tweakpane from 'tweakpane';
 
 // シェーダーファイルをimport
 import vertexShader from './shader/vert.glsl';
 import fragmentShader from './shader/frag.glsl';
+
+// Tweakpaneの設定
+const pane = new Tweakpane();
+const PARAMS = {
+  animation1: 1.0,
+  animation2: 0.0,
+  animation3: 0.0,
+};
+pane.addInput(PARAMS, 'animation1', {
+  label: 'animation1',
+  min: 0.0,
+  max: 1.0,
+});
+pane.addInput(PARAMS, 'animation2', {
+  label: 'animation2',
+  min: 0.0,
+  max: 1.0,
+});
+pane.addInput(PARAMS, 'animation3', {
+  label: 'animation3',
+  min: 0.0,
+  max: 1.0,
+});
 
 class FloatingChars extends THREE.Mesh {
   constructor(numChars, charWidth, numTextureGridCols, textureGridsize) {
@@ -25,9 +49,9 @@ class FloatingChars extends THREE.Mesh {
         numTextureGridCols: { type: '1f', value: this.numTextureGridCols },
         numTextureGridRows: { type: '1f', value: 1 },
         textureTxtLength: { type: '1f', value: 1 },
-        animationValue1: { type: '1f', value: 0 },
-        animationValue2: { type: '1f', value: 0 },
-        animationValue3: { type: '1f', value: 1 },
+        animationValue1: { type: '1f', value: PARAMS.animation1 },
+        animationValue2: { type: '1f', value: PARAMS.animation2 },
+        animationValue3: { type: '1f', value: PARAMS.animation3 },
       },
       vertexShader: vertexShader,
       fragmentShader: fragmentShader,
@@ -36,6 +60,9 @@ class FloatingChars extends THREE.Mesh {
 
   update() {
     this.material.uniforms.u_time.value += 0.001;
+    this.material.uniforms.animationValue1.value = PARAMS.animation1;
+    this.material.uniforms.animationValue2.value = PARAMS.animation2;
+    this.material.uniforms.animationValue3.value = PARAMS.animation3;
   }
 
   createTexture(txt, fontFamily) {
