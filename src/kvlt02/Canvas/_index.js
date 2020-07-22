@@ -1,5 +1,4 @@
 import { Scene } from 'three/src/scenes/Scene';
-import { PerspectiveCamera } from 'three/src/cameras/PerspectiveCamera';
 import { OrthographicCamera } from 'three/src/cameras/OrthographicCamera';
 import { WebGLRenderer } from 'three/src/renderers/WebGLRenderer';
 import { Mesh } from 'three/src/objects/Mesh';
@@ -7,11 +6,10 @@ import { PlaneBufferGeometry } from 'three/src/geometries/PlaneGeometry';
 import { RawShaderMaterial } from 'three/src/materials/RawShaderMaterial';
 import { CanvasTexture } from 'three/src/textures/CanvasTexture';
 import { LinearFilter, RGBAFormat } from 'three/src/constants';
-import { TweenMax, Power3 } from 'gsap/TweenMax';
+
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 import Config from './_Config';
-// import Item from './Item/_index';
-
 import Tweakpane from 'tweakpane';
 
 // シェーダーファイルをimport
@@ -35,7 +33,6 @@ pane.addInput(PARAMS, 'speed', {
   max: 50.0,
 });
 
-let geometry, mesh, material, camera, scene;
 export default class Canvas {
   constructor() {
     this.container = document.getElementById('CanvasContainer');
@@ -53,47 +50,36 @@ export default class Canvas {
     // 関数をthisでバインドして持っておく
     this.resizeFunction = this.resize.bind(this);
     this.updateFunction = this.update.bind(this);
-    this.start = this.start.bind(this);
 
     // リサイズイベントを設定
     window.addEventListener('resize', this.resizeFunction);
 
+    this.scene = new Scene();
+    this.camera = new OrthographicCamera(-1, 1, 1, -1, 0, -1);
+
+    // this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+
+    // レンダリング開始
     // 初期化
     this.init();
   }
 
   init() {
-    scene = new Scene();
-    // userDataに入れておく
-
-    // Cameraを作成
-    // camera = new PerspectiveCamera(
-    //   60,
-    //   Config.width / Config.height,
-    //   0.01,
-    //   10000
-    // );
-
-    camera = new OrthographicCamera(-1, 1, 1, -1, 0, -1);
-    camera.position.set(0, 0, Config.cameraZ);
-    // レンダリング開始
-
     this.createMesh();
-    scene.add(mesh);
     this.start();
   }
 
   createMesh() {
-    const segment = 1;
-    let resolution = Config.width / Config.height;
-    console.log(resolution);
+    const segment = 10;
 
-    geometry = new PlaneBufferGeometry(
-      Config.width,
-      Config.height,
+    this.geometry = new PlaneBufferGeometry(
+      2,
+      2,
       segment,
       segment
     );
+
+    // this.geometry = new BoxGeometry(100, 100, 10, 1, 1, 1);
 
     // テクスチャの作成
     /*
@@ -107,22 +93,24 @@ export default class Canvas {
     });
 
     // マテリアルの作成
-    material = new RawShaderMaterial({
+    this.material = new RawShaderMaterial({
       uniforms: {
         texture: { value: texture },
         time: { value: 0.0 },
         tween: { value: 0.0 },
-        resolution: { value: resolution },
+        resolution: { value: Config.aspectRatio },
         wd: { value: 0.0 },
         speed: { value: 1.0 },
       },
       vertexShader: vertexShader,
       fragmentShader: fragmentShader,
-      transparent: true,
+      transparent: false,
     });
 
-    mesh = new Mesh(geometry, material);
-    // this.scene.add(mesh);
+    // this.material = new MeshBasicMaterial({color: 0x6699FF});
+
+    this.mesh = new Mesh(this.geometry, this.material);
+    this.scene.add(this.mesh);
   }
 
   // 2D Canvasからテクスチャを作成する
@@ -166,7 +154,6 @@ export default class Canvas {
   setConfig() {
     // 親要素のサイズを取得
     const domRect = this.container.getBoundingClientRect();
-    console.log(domRect);
     const width = domRect.width;
     const height = domRect.height;
 
@@ -195,14 +182,14 @@ export default class Canvas {
   update() {
     // 最大60fpsでレンダリングをループ
     requestAnimationFrame(this.updateFunction);
-    const time = performance.now() * 0.001;
+    this.time = performance.now() * 0.001;
 
-    material.uniforms.time.value = time;
-    material.uniforms.wd.value = PARAMS.wd;
-    material.uniforms.speed.value = PARAMS.speed;
+    // this.material.uniforms.time.value = time;
+    // this.material.uniforms.wd.value = PARAMS.wd;
+    // this.material.uniforms.speed.value = PARAMS.speed;
 
-    // camera.position.z += 0.6;
     // 今のsceneをcameraでレンダリングする
-    this.renderer.render(scene, camera);
+    this.renderer.render(this.scene, this.camera);
+
   }
 }

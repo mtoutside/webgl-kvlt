@@ -14,8 +14,8 @@ void main() {
   // 0-1で変化するtweenを0-1-0に変換する
 
   float t = time * speed;
-  uv.x += .005 * (sin(wd * uv.y + t)); // x軸に対してy軸ずらす
-  uv.y += .005 * (sin(wd * uv.x + t)); // y軸に対してx軸ずらす
+  /* uv.x += .005 * (sin(wd * uv.y + t)); */
+  /* uv.y += .005 * (sin(wd * uv.x + t)); */
 
   /* uv = uv / 1.6; */
   uv = uv.xy / resolution;
@@ -27,6 +27,6 @@ void main() {
   /* color = fract(color); */
 
 
-  /* gl_FragColor = vec4(color); */
-  gl_FragColor = vec4(uv, .0, 1.0);
+  gl_FragColor = vec4(1.0, 1.0, 0.0, 1.0);
+  /* gl_FragColor = vec4(uv, .0, 1.0); */
 }
