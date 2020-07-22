@@ -72,30 +72,20 @@ export default class Canvas {
   createMesh() {
     const segment = 10;
 
-    this.geometry = new PlaneBufferGeometry(
-      2,
-      2,
-      segment,
-      segment
-    );
-
-    // this.geometry = new BoxGeometry(100, 100, 10, 1, 1, 1);
+    this.geometry = new PlaneBufferGeometry(2, 2, segment, segment);
 
     // テクスチャの作成
-    /*
-      DOM要素が持っているtextデータとフォントサイズをここで指定する
-      */
-    const texture = this.createTexture({
+    this.texture = this.createTexture({
       text: 'KVLT',
       width: Config.width,
       height: Config.height,
-      fontSize: 100,
+      fontSize: 70,
     });
 
     // マテリアルの作成
     this.material = new RawShaderMaterial({
       uniforms: {
-        texture: { value: texture },
+        texture: { value: this.texture },
         time: { value: 0.0 },
         tween: { value: 0.0 },
         resolution: { value: Config.aspectRatio },
@@ -106,8 +96,8 @@ export default class Canvas {
       fragmentShader: fragmentShader,
       transparent: false,
     });
+    console.log(this.texture);
 
-    // this.material = new MeshBasicMaterial({color: 0x6699FF});
 
     this.mesh = new Mesh(this.geometry, this.material);
     this.scene.add(this.mesh);
@@ -184,12 +174,10 @@ export default class Canvas {
     requestAnimationFrame(this.updateFunction);
     this.time = performance.now() * 0.001;
 
-    // this.material.uniforms.time.value = time;
-    // this.material.uniforms.wd.value = PARAMS.wd;
-    // this.material.uniforms.speed.value = PARAMS.speed;
+    this.material.uniforms.time.value = this.time;
+    this.material.uniforms.wd.value = PARAMS.wd;
+    this.material.uniforms.speed.value = PARAMS.speed;
 
-    // 今のsceneをcameraでレンダリングする
     this.renderer.render(this.scene, this.camera);
-
   }
 }
