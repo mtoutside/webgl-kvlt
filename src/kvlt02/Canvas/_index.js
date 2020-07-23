@@ -20,8 +20,7 @@ import fragmentShader from './Item/shader/frag.glsl';
 const pane = new Tweakpane();
 const PARAMS = {
   wd: 10.0,
-  speed: 5.0,
-  fontSize: 90,
+  speed: 0.1,
 };
 pane.addInput(PARAMS, 'wd', {
   label: 'wave detail',
@@ -29,8 +28,8 @@ pane.addInput(PARAMS, 'wd', {
   max: 20.0,
 });
 pane.addInput(PARAMS, 'speed', {
-  min: 1.0,
-  max: 50.0,
+  min: 0.0,
+  max: 10.0,
 });
 
 export default class Canvas {
