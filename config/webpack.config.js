@@ -2,7 +2,7 @@ const path = require('path');
 const glob = require('glob');
 
 const SRC_PATH = path.resolve(__dirname, '../src');
-const PUBLIC_PATH = path.resolve(__dirname, '../public');
+const PUBLIC_PATH = path.resolve(__dirname, '../docs');
 
 const entries = {};
 
