@@ -76,42 +76,10 @@ export default class Canvas {
   }
 
   init() {
-    this.clock = new THREE.Clock();
-    // this.textex();
-
     this.initFloatingChars().then(() => {
       this.start();
     });
-
-    // レンダリング開始
-    // this.start();
   }
-
-  /*
-  textex() {
-    this.resolution = Config.width / Config.height;
-    this.geometry = new THREE.PlaneGeometry(50, 50);
-    this.material = new THREE.RawShaderMaterial({
-      uniforms: {
-        u_time: { value: 0.0 },
-        // u_mouse: { value:{ x:0.0, y:0.0 }},
-        u_resolution: { value: this.resolution },
-        u_wd: { value: PARAMS.wd },
-        u_wd2: { value: PARAMS.wd2 },
-        u_speed: { value: PARAMS.speed },
-      },
-      vertexShader: vertexShader,
-      fragmentShader: fragmentShader,
-      wireframe: false,
-    });
-    // Itemを作成
-    this.textex = new THREE.Mesh(this.geometry, this.material);
-    console.log(this.textex);
-
-    // metaballごとのSceneにmetaballを追加
-    this.scene.add(this.textex);
-  }
-  */
 
   initFloatingChars() {
     return new Promise(resolve => {
@@ -151,10 +119,6 @@ export default class Canvas {
   update() {
     requestAnimationFrame(this.updateFunction);
 
-    // this.material.uniforms.u_time.value += this.clock.getDelta();
-    // this.material.uniforms.u_wd.value = PARAMS.wd;
-    // this.material.uniforms.u_wd2.value = PARAMS.wd2;
-    // this.material.uniforms.u_speed.value = PARAMS.speed;
     this.floatingChars.update(this.camera);
     this.renderer.render(this.scene, this.camera);
   }
