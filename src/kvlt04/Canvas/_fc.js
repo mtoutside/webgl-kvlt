@@ -112,6 +112,7 @@ class FloatingChars extends THREE.Mesh {
     this.material.uniforms.numTextureGridRows.value = numTextureGridRows;
     this.material.uniforms.textureTxtLength.value = textureTxtLength;
 
+    // ↓canvasの文字を確認したいとき
     // document.body.appendChild(this.txtCanvas);
     // this.txtCanvas.style.backgroundColor = '#333';
     // this.txtCanvas.style.position = 'relative';

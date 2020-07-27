@@ -9,12 +9,12 @@ import WebFontLoader from 'webfontloader';
 import Config from './_Config';
 
 export default class Canvas {
-  constructor(numChars, charWidth, numTextureGridCols, textureGridSize, fontFamily) {
-    this.numChars = numChars || 1000;
-    this.charWidth = charWidth || 4;
-    this.numTextureGridCols = numTextureGridCols || 16;
-    this.textureGridSize = textureGridSize || 128;
-    this.fontFamily = fontFamily || 'Cabin Sketch';
+  constructor(numChars = 1000, charWidth = 4, numTextureGridCols = 16, textureGridSize = 128, fontFamily = 'Cabin Sketch') {
+    this.numChars = numChars;
+    this.charWidth = charWidth;
+    this.numTextureGridCols = numTextureGridCols;
+    this.textureGridSize = textureGridSize;
+    this.fontFamily = fontFamily;
     this.animationValue1 = 1;
     this.animationValue2 = 0;
     this.animationValue3 = 0;
@@ -97,8 +97,6 @@ export default class Canvas {
           );
 
           this.floatingChars.createTexture('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+-=[]{}|:;?<>,.', this.fontFamily);
-          console.log(this.floatingChars);
-
           this.scene.add(this.floatingChars);
           resolve();
         },
