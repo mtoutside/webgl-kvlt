@@ -69,7 +69,7 @@ export default class Canvas {
   }
 
   createMesh() {
-    const segment = 10;
+    const segment = 1;
 
     this.geometry = new PlaneBufferGeometry(2, 2, segment, segment);
 
@@ -78,7 +78,7 @@ export default class Canvas {
       text: 'KVLT',
       width: Config.width,
       height: Config.height,
-      fontSize: 70,
+      fontSize: 130,
     });
 
     // マテリアルの作成
@@ -97,7 +97,6 @@ export default class Canvas {
     });
     console.log(this.texture);
 
-
     this.mesh = new Mesh(this.geometry, this.material);
     this.scene.add(this.mesh);
   }
@@ -106,29 +105,44 @@ export default class Canvas {
   createTexture(options) {
     // Canvas要素を作成
     const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+
+    // measureTextするためいったん設定
+    const fontFamily = 'Ubuntu Condensed';
+    ctx.font = `bold ${options.fontSize * Config.dpr}px '${fontFamily}'`;
+    const textWidth = ctx.measureText(options.text);
+
     // dprに対応したサイズを計算
-    const width = options.width * Config.dpr;
-    const height = options.height * Config.dpr;
+    const width = textWidth.width * Config.dpr;
+    const height = options.fontSize * Config.dpr;
     // 幅を指定
     canvas.width = width;
     canvas.height = height;
 
-    const ctx = canvas.getContext('2d');
+    console.log(canvas);
 
     // ctx.fillStyle = 'rgba(255, 255, 255, 0.1)'
     // ctx.fillRect(0, 0, width, height)
 
     // 中央にテキストを描画
-    ctx.font = `bold ${options.fontSize * Config.dpr}px 'Ubuntu Condensed'`;
-    // ctx.font = `bold ${options.fontSize * Config.dpr}px UnifrakturCook` なぜか読み込めない
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
+    ctx.font = `bold ${options.fontSize * Config.dpr}px '${fontFamily}'`;
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'top';
     ctx.fillStyle = 'rgba(255, 255, 255, 1.0)';
-    ctx.fillText(options.text, width / 2, height / 2);
+    ctx.fillText(options.text, 0, 0);
+
+
+
+    console.log(textWidth);
 
     // 文字の輪郭だけ描画
     // ctx.strokeStyle = 'rgba(255, 255, 255, 1.0)'
     // ctx.strokeText(options.text.toUpperCase(), width / 2, height / 2)
+
+    // ↓canvasの文字を確認したいとき
+    document.body.appendChild(canvas);
+    canvas.style.backgroundColor = '#333';
+    canvas.style.position = 'relative';
 
     // テクスチャを作成
     const texture = new CanvasTexture(canvas);
