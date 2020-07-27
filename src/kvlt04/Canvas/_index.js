@@ -9,12 +9,12 @@ import WebFontLoader from 'webfontloader';
 import Config from './_Config';
 
 export default class Canvas {
-  // TODO: 問題なく動いたらfontfamily 追加
-  constructor(numChars, charWidth, numTextureGridCols, textureGridSize) {
+  constructor(numChars, charWidth, numTextureGridCols, textureGridSize, fontFamily) {
     this.numChars = numChars || 1000;
     this.charWidth = charWidth || 4;
     this.numTextureGridCols = numTextureGridCols || 16;
     this.textureGridSize = textureGridSize || 128;
+    this.fontFamily = fontFamily || 'Cabin Sketch';
     this.animationValue1 = 1;
     this.animationValue2 = 0;
     this.animationValue3 = 0;
@@ -85,7 +85,7 @@ export default class Canvas {
     return new Promise(resolve => {
       WebFontLoader.load({
         google: {
-          families: ['Cabin Sketch'],
+          families: [this.fontFamily],
         },
         active: () => {
           console.log('font loaded');
@@ -96,7 +96,7 @@ export default class Canvas {
             this.textureGridSize
           );
 
-          this.floatingChars.createTexture('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+-=[]{}|:;?<>,.', 'Cabin Sketch');
+          this.floatingChars.createTexture('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+-=[]{}|:;?<>,.', this.fontFamily);
           console.log(this.floatingChars);
 
           this.scene.add(this.floatingChars);
