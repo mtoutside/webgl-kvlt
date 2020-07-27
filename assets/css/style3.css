@@ -1,0 +1,76 @@
+@charset "utf-8";
+
+@font-face {
+  font-family: "UnifrakturCook", serif;
+}
+html {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  height: 100%;
+  background-color: #101010;
+}
+
+/* 全画面Canvas */
+#CanvasContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#CanvasContainer canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.menu {
+  position: relative;
+  width: 100%;
+  /* height: 100%; */
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
+}
+
+.menu-item {
+  border: 1px solid #fff;
+  height: 150px;
+  width: 100%;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  margin-bottom: 280px;
+}
+.menu-item + .menu-item {
+  /* margin-left: 30px; */
+}
+
+@media screen and (max-width: 896px) {
+  .menu {
+    flex-flow: column wrap;
+    height: auto;
+  }
+
+  .menu-item {
+    height: 90px;
+    width: 98%;
+  }
+
+  .menu-item + .menu-item {
+    margin-left: 0;
+    margin-top: 2vw;
+  }
+
+  .tp-lblv_l {
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+}
