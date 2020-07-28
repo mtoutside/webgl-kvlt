@@ -14,20 +14,15 @@ void main() {
   // 0-1で変化するtweenを0-1-0に変換する
 
   float t = time * speed;
-  /* uv.x += .005 * (sin(wd * uv.y + t)); */
-  /* uv.y += .005 * (sin(wd * uv.x + t)); */
 
-  vec2 repeat = vec2(5.0, 8.0);
+  vec2 repeat = vec2(8.0, 8.0); // (行, 列)回繰り返し
   vec2 uv = fract(vUv * repeat + vec2(t, 0.0));
-  /* uv = uv / 1.6; */
-  /* uv = uv.xy / resolution; */
-  /* uv *= .5; */
+
+  uv += vec2(sin(t), 0.0);
+
+  /* uv.x += .008 * (sin(wd * uv.y * t)); */
+  /* uv.y += .008 * (sin(wd * uv.x * t)); */
+
   vec3 color = texture2D(texture, uv).rgb;
-
-  /* color *= 3.0; */
-  /* color = fract(color); */
-
-
-  /* gl_FragColor = vec4(color, 1.0); */
   gl_FragColor = vec4(color, 1.0);
 }

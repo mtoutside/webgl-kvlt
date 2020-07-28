@@ -113,7 +113,7 @@ export default class Canvas {
     const textWidth = ctx.measureText(options.text);
 
     // dprに対応したサイズを計算
-    const width = textWidth.width * Config.dpr;
+    const width = textWidth.width;
     const height = options.fontSize * Config.dpr * 0.8;
     // 幅を指定
     canvas.width = width;
@@ -138,9 +138,9 @@ export default class Canvas {
     // ctx.strokeText(options.text.toUpperCase(), width / 2, height / 2)
 
     // ↓canvasの文字を確認したいとき
-    document.body.appendChild(canvas);
-    canvas.style.backgroundColor = '#933';
-    canvas.style.position = 'relative';
+    // document.body.appendChild(canvas);
+    // canvas.style.backgroundColor = '#933';
+    // canvas.style.position = 'relative';
 
     // テクスチャを作成
     const texture = new CanvasTexture(canvas);
