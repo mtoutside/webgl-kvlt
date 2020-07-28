@@ -114,7 +114,7 @@ export default class Canvas {
 
     // dprに対応したサイズを計算
     const width = textWidth.width * Config.dpr;
-    const height = options.fontSize * Config.dpr;
+    const height = options.fontSize * Config.dpr * 0.8;
     // 幅を指定
     canvas.width = width;
     canvas.height = height;
@@ -127,11 +127,9 @@ export default class Canvas {
     // 中央にテキストを描画
     ctx.font = `bold ${options.fontSize * Config.dpr}px '${fontFamily}'`;
     ctx.textAlign = 'left';
-    ctx.textBaseline = 'top';
+    ctx.textBaseline = 'hanging';
     ctx.fillStyle = 'rgba(255, 255, 255, 1.0)';
-    ctx.fillText(options.text, 0, 0);
-
-
+    ctx.fillText(options.text, -5, 0);
 
     console.log(textWidth);
 
@@ -141,7 +139,7 @@ export default class Canvas {
 
     // ↓canvasの文字を確認したいとき
     document.body.appendChild(canvas);
-    canvas.style.backgroundColor = '#333';
+    canvas.style.backgroundColor = '#933';
     canvas.style.position = 'relative';
 
     // テクスチャを作成
