@@ -84,6 +84,7 @@ export default class Item extends Mesh {
     });
   }
 
+  // TODO: 文字数に応じたキャンバスサイズ
   createTexture(options) {
     const canvas = document.createElement('canvas');
     const width = options.width * Config.dpr;
