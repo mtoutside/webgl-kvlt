@@ -3,20 +3,15 @@ precision mediump float;
 #define PI 3.141592653589
 #define PI2 6.28318530718
 
-uniform vec2 u_mouse;
-uniform vec2 u_resolution;
-uniform float u_time;
-uniform sampler2D txtTexture;
+uniform float time;
 
-varying vec2 vUv;
-varying vec4 vColor;
+varying vec4 vMvPosition;
+varying vec3 vColor;
 
 void main() {
-  vec2 uv = vUv;
-  vec4 color = texture2D(txtTexture, uv) * vColor;
-  if(color.a == 0.0) {
-    discard;
-  } else {
-    gl_FragColor = color;
-  }
+  vec2 uv = gl_PointCoord.xy * 2.0 - 1.0;
+  float orb = 0.1 / length(uv * 1.0);
+  orb = smoothstep(0.0, 1.0, orb);
+  vec3 color = vec3(orb) * vColor;
+  gl_FragColor = vec4(color, 1.0);
 }

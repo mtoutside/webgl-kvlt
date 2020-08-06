@@ -2,6 +2,8 @@
 
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import fragmentShader from './shader/frag.glsl';
+import vertexShader from './shader/vert.glsl';
 import Config from './_Config';
 
 export default class Canvas {
@@ -15,12 +17,12 @@ export default class Canvas {
     this.uniforms = {
       time: {
         type: 'f',
-        value: 0.0
+        value: 0.0,
       },
       size: {
         type: 'f',
-        value: 10.0
-      }
+        value: 10.0,
+      },
     };
     // audio
     this.fftSize = 2048;
@@ -174,33 +176,53 @@ export default class Canvas {
     this.geometry = new THREE.BufferGeometry();
     this.geometry.morphAttributes = {};
     this.material = new THREE.ShaderMaterial({
-      uniforms: uniforms,
-      transparent: ture,
+      uniforms: this.uniforms,
+      vertexShader: vertexShader,
+      fragmentShader: fragmentShader,
+      transparent: true,
       depthWrite: false,
-      blending: THREE.AdditiveBlending
+      blending: THREE.AdditiveBlending,
     });
 
     const vertices = [];
     const colors = [];
 
-    let colorsPerFace = [
-      "#ff4b78",
-      "#16e36d",
-      "#162cf8",
-      "#2016e3",
-    ];
+    let colorsPerFace = ['#ff4b78', '#16e36d', '#162cf8', '#2016e3'];
+
+    const step = 3;
 
     // 格子状にパーティクルを並べる
-    for (let y = 0, height = imageData.height; y < height; y++) {
-      for (let x = 0, width = imageData.width; x < width; x++) {
-        const vertex = new THREE.Vector3(
-          x - imageData.width / 2,
-          -y + imageData.height / 2,
-          0
+    for (let y = 0, height = imageData.height; y < height; y += step) {
+      for (let x = 0, width = imageData.width; x < width; x += step) {
+        let index = (x + y * width) * 4;
+        this.particleIndexArray.push(index);
+
+        let gray =
+          (imageData.data[index] +
+            imageData.data[index + 1] +
+            imageData.data[index + 2]) /
+          3;
+        let z = gray < 300 ? gray : 10000;
+        vertices.push(x - imageData.width / 2, -y + imageData.height / 2, z);
+
+        const rgbColor = this.hexToRgb(
+          colorsPerFace[Math.floor(Math.random() * colorsPerFace.length)]
         );
-        this.geometry.vertices.push(vertex);
+        colors.push(rgbColor.r, rgbColor.g, rgbColor.b);
       }
     }
+
+    const verticesArray = new Float32Array(vertices);
+    this.geometry.addAttribute(
+      'position',
+      new THREE.BufferAttribute(verticesArray, 3)
+    );
+
+    const colorsArray = new Float32Array(colors);
+    this.geometry.addAttribute(
+      'color',
+      new THREE.BufferAttribute(colorsArray, 3)
+    );
 
     this.particles = new THREE.Points(this.geometry, this.material);
     this.scene.add(this.particles);
@@ -267,6 +289,7 @@ export default class Canvas {
     this.clock.getDelta();
     const t = this.clock.elapsedTime;
 
+    this.uniforms.time.value += 0.5;
     let r, g, b;
 
     // audio
@@ -287,24 +310,17 @@ export default class Canvas {
 
     // video
     if (this.particles) {
-      this.particles.material.color.r = 1 - r;
-      this.particles.material.color.g = 1 - g;
-      this.particles.material.color.b = 1 - b;
-
-      const density = 2;
       const useCache = parseInt(t) % 2 === 0;
       const imageData = this.getImageData(this.video, useCache);
+      let count = 0;
+
       for (
-        let i = 0, length = this.particles.geometry.vertices.length;
+        let i = 0,
+          length = this.particles.geometry.attributes.position.array.length;
         i < length;
-        i++
+        i += 3
       ) {
-        const particle = this.particles.geometry.vertices[i];
-        if (i % density === 0) {
-          particle.z = 10000;
-          continue;
-        }
-        let index = i * 4;
+        let index = this.particleIndexArray[count];
         let gray =
           (imageData.data[index] +
             imageData.data[index + 1] +
@@ -313,20 +329,25 @@ export default class Canvas {
         let threshold = 300;
         if (gray < threshold) {
           if (gray < threshold / 3) {
-            particle.z = gray * r * 5;
+            this.particles.geometry.attributes.position.array[i + 2] =
+              gray * r * 5;
           } else if (gray < threshold / 2) {
-            particle.z = gray * g * 5;
+            this.particles.geometry.attributes.position.array[i + 2] =
+              gray * g * 5;
           } else {
-            particle.z = gray * b * 5;
+            this.particles.geometry.attributes.position.array[i + 2] =
+              gray * b * 5;
           }
         } else {
-          particle.z = 10000;
+          this.particles.geometry.attributes.position.array[i + 2] = 10000;
         }
+        count++;
       }
-      this.particles.geometry.verticesNeedUpdate = true;
+      this.uniforms.size.value = ((r + g + b) / 3) * 35 + 5;
+      this.particles.geometry.attributes.position.needsUpdate = true;
     }
 
-    requestAnimationFrame(this.updateFunction);
     this.renderer.render(this.scene, this.camera);
+    requestAnimationFrame(this.updateFunction);
   }
 }
