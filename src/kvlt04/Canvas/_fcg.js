@@ -126,4 +126,8 @@ export default class FloatingCharsGeometry {
 
     this.geometry.computeVertexNormals();
   }
+
+  getGeometry() {
+    return this.geometry;
+  }
 }
