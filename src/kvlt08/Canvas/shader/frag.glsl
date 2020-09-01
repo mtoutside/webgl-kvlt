@@ -10,8 +10,14 @@ varying vec2 vUv;
 varying vec3 vPosition;
 
 void main() {
+  float t = time * 0.02;
   vec2 repeat = -vec2(12.0, 3.0);
-  vec2 uv = fract(vUv * repeat - vec2(time, 0.0));
+  vec2 uv = fract(vUv * repeat + vec2(t, 0.0));
   vec3 texture = texture2D(uTexture, uv).rgb;
-  gl_FragColor = vec4(texture, 1.0);
+  /* texture *= vec3(uv.x, uv.y, 0.); */
+
+  float fog = clamp(vPosition.z / 6.0, 0.0, 1.0);
+  vec3 fragColor = mix(vec3(0.0), texture, fog);
+
+  gl_FragColor = vec4(fragColor, 1.0);
 }

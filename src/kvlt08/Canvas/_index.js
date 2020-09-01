@@ -12,17 +12,6 @@ export default class Canvas {
     this.ctx = this.canvas.getContext('2d');
     this.clock = new THREE.Clock();
     this.container = document.getElementById('CanvasContainer');
-
-    this.uniforms = {
-      time: {
-        type: 'f',
-        value: 0.0,
-      },
-      size: {
-        type: 'f',
-        value: 10.0,
-      },
-    };
     this.setConfig();
 
     this.renderer = new THREE.WebGLRenderer({
@@ -48,6 +37,7 @@ export default class Canvas {
       10000
     );
     this.camera.position.set(0, 0, 100);
+    this.scene.background = new THREE.Color('#000000');
     this.z = Math.min(window.innerWidth, window.innerHeight);
     this.camera.lookAt(0, 0, this.z);
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
@@ -75,6 +65,7 @@ export default class Canvas {
   }
 
   init() {
+    this.mesh();
     this.start();
   }
 
@@ -91,12 +82,10 @@ export default class Canvas {
 
     // dprに対応したサイズを計算
     const width = textWidth.width;
-    const height = options.fontSize * Config.dpr * 0.8;
+    const height = options.fontSize * Config.dpr * 1.0;
     // 幅を指定
     canvas.width = width;
     canvas.height = height;
-
-    console.log(canvas);
 
     // ctx.fillStyle = 'rgba(255, 255, 255, 0.1)'
     // ctx.fillRect(0, 0, width, height)
@@ -106,7 +95,7 @@ export default class Canvas {
     ctx.textAlign = 'left';
     ctx.textBaseline = 'hanging';
     ctx.fillStyle = 'rgba(255, 255, 255, 1.0)';
-    ctx.fillText(options.text, -5, 0);
+    ctx.fillText(options.text, -5, 20);
 
     console.log(textWidth);
 
@@ -132,7 +121,7 @@ export default class Canvas {
   mesh() {
     // テクスチャの作成
     this.texture = this.createTexture({
-      text: 'KVLT',
+      text: '動く文字 ',
       width: Config.width,
       height: Config.height,
       fontSize: 130,
@@ -149,7 +138,6 @@ export default class Canvas {
       fragmentShader: fragmentShader,
       transparent: false,
       side: THREE.DoubleSide,
-      wireframe: true,
     });
     this.mesh = new THREE.Mesh(this.geometry, this.material);
     this.mesh.position.set(0, 0, 0);
@@ -170,7 +158,7 @@ export default class Canvas {
   update() {
     this.clock.getDelta();
 
-    this.uniforms.time.value += 0.5;
+    this.material.uniforms.time.value += 0.5;
 
     this.renderer.render(this.scene, this.camera);
     requestAnimationFrame(this.updateFunction);

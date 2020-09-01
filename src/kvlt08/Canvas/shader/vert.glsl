@@ -2,6 +2,14 @@ precision mediump float;
 
 uniform float time;
 
+attribute vec2 uv;
+attribute vec3 position;
+
+uniform mat4 viewMatrix;
+uniform mat4 modelViewMatrix;
+uniform mat4 modelMatrix;
+uniform mat4 projectionMatrix;
+
 varying vec4 vMvPosition;
 varying vec2 vUv;
 varying vec3 vPosition;
@@ -30,7 +38,7 @@ vec3 rotateVec3(vec3 p, float angle, vec3 axis){
 }
 void main() {
   vUv = uv;
-  vPosition ~ positon;
+  vPosition = position;
   vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
 
   gl_Position = projectionMatrix * mvPosition;
