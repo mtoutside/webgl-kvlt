@@ -5,6 +5,26 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import fragmentShader from './shader/frag.glsl';
 import vertexShader from './shader/vert.glsl';
 import Config from './_Config';
+// import Options from './_Options';
+
+const options = [
+  {
+    word: 'WORD',
+    color: '#ffffff',
+    fill: '#000000',
+    geometry: new THREE.TorusKnotGeometry(9, 3, 768, 3, 4, 3),
+    position: [0, 0, 0],
+    class: 'geo-1',
+  },
+  {
+    word: 'POISON',
+    color: '#ccffff',
+    fill: '#3e64ff',
+    geometry: new THREE.SphereGeometry(12, 64, 64),
+    position: [20, 0, 0],
+    class: 'geo-1',
+  },
+];
 
 export default class Canvas {
   constructor() {
@@ -36,7 +56,7 @@ export default class Canvas {
       1,
       10000
     );
-    this.camera.position.set(0, 0, 100);
+    this.camera.position.set(0, 0, 50);
     this.scene.background = new THREE.Color('#000000');
     this.z = Math.min(window.innerWidth, window.innerHeight);
     this.camera.lookAt(0, 0, this.z);
@@ -65,8 +85,46 @@ export default class Canvas {
   }
 
   init() {
-    this.mesh();
+    this.mesh(options);
     this.start();
+  }
+
+  mesh(options) {
+    for (let i = 0; i < options.length; i++) {
+      this.options = {
+        word: options[i].word,
+        color: options[i].color,
+        fill: options[i].color,
+        geometry: options[i].geometry,
+        position: options[i].position,
+      };
+      console.log(this.options);
+      // テクスチャの作成
+      this.texture = this.createTexture({
+        text: this.options.word,
+        width: Config.width,
+        height: Config.height,
+        fontSize: 130,
+        color: this.options.fill,
+      });
+
+      this.geometry = this.options.geometry;
+      this.material = new THREE.RawShaderMaterial({
+        uniforms: {
+          uTexture: { value: this.texture },
+          time: { value: 0.0 },
+          resolution: { value: Config.aspectRatio },
+        },
+        vertexShader: vertexShader,
+        fragmentShader: fragmentShader,
+        transparent: false,
+        side: THREE.DoubleSide,
+      });
+      this.mesh = new THREE.Mesh(this.geometry, this.material);
+      this.mesh.position.set(...this.options.position);
+      this.mesh.rotation.set(0, 0, 0);
+      this.scene.add(this.mesh);
+    }
   }
 
   // 2D Canvasからテクスチャを作成する
@@ -94,7 +152,7 @@ export default class Canvas {
     ctx.font = `bold ${options.fontSize * Config.dpr}px '${fontFamily}'`;
     ctx.textAlign = 'left';
     ctx.textBaseline = 'hanging';
-    ctx.fillStyle = 'rgba(255, 255, 255, 1.0)';
+    ctx.fillStyle = options.color;
     ctx.fillText(options.text, -5, 20);
 
     console.log(textWidth);
@@ -116,33 +174,6 @@ export default class Canvas {
     texture.format = THREE.RGBAFormat;
 
     return texture;
-  }
-
-  mesh() {
-    // テクスチャの作成
-    this.texture = this.createTexture({
-      text: '動く文字 ',
-      width: Config.width,
-      height: Config.height,
-      fontSize: 130,
-    });
-
-    this.geometry = new THREE.TorusKnotGeometry(9, 3, 768, 3, 4, 3);
-    this.material = new THREE.RawShaderMaterial({
-      uniforms: {
-        uTexture: { value: this.texture },
-        time: { value: 0.0 },
-        resolution: { value: Config.aspectRatio },
-      },
-      vertexShader: vertexShader,
-      fragmentShader: fragmentShader,
-      transparent: false,
-      side: THREE.DoubleSide,
-    });
-    this.mesh = new THREE.Mesh(this.geometry, this.material);
-    this.mesh.position.set(0, 0, 0);
-    this.mesh.rotation.set(0, 0, 0);
-    this.scene.add(this.mesh);
   }
 
   start() {
