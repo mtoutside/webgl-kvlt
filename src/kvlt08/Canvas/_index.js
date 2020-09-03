@@ -88,6 +88,7 @@ export default class Canvas {
     for (let i = 0; i < options.length; i++) {
       let meshes = new Mesh(options[i], this.scene);
       meshes.init(options[i], this.scene);
+      console.log(meshes);
     }
     this.start();
   }
@@ -105,6 +106,12 @@ export default class Canvas {
   update() {
     this.clock.getDelta();
 
+    for (let i = 0; i < this.scene.children.length; i++) {
+      let obj = this.scene.children[i].material;
+      console.log(obj);
+      obj.uniformsNeedUpdate = true;
+      obj.uniforms.time.value += 0.5;
+    }
     this.renderer.render(this.scene, this.camera);
     requestAnimationFrame(this.updateFunction);
   }
@@ -198,9 +205,5 @@ class Mesh {
     texture.format = THREE.RGBAFormat;
 
     return texture;
-  }
-
-  updateTime() {
-    this.material.uniforms.time.value += 0.5;
   }
 }
