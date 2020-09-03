@@ -4,7 +4,6 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import Config from './_Config';
 import Mesh from './_mesh';
-// import Options from './_Options';
 
 const options = [
   {

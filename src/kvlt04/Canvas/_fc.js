@@ -37,7 +37,10 @@ class FloatingChars extends THREE.Mesh {
     this.numTextureGridCols = numTextureGridCols;
     this.textureGridsize = textureGridsize;
 
-    this.geometry = new FloatingCharsGeometry(this.numChars, this.charWidth).getGeometry();
+    this.geometry = new FloatingCharsGeometry(
+      this.numChars,
+      this.charWidth
+    ).getGeometry();
     console.log(this.geometry);
     this.material = new THREE.RawShaderMaterial({
       transparent: true,
