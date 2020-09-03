@@ -8,7 +8,7 @@ import Mesh from './_mesh';
 
 const options = [
   {
-    word: 'WORD',
+    word: 'INTO THE VOID ',
     color: '#ffffff',
     fill: '#000000',
     geometry: new THREE.TorusKnotGeometry(9, 3, 768, 3, 4, 3),
@@ -16,7 +16,7 @@ const options = [
     class: 'geo-1',
   },
   {
-    word: 'DELETE',
+    word: 'SABBATH ',
     color: '#cc66fa',
     fill: '#3e64ff',
     geometry: new THREE.SphereGeometry(12, 64, 64),
