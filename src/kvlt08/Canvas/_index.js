@@ -17,11 +17,11 @@ const options = [
     class: 'geo-1',
   },
   {
-    word: 'POISON',
-    color: '#ccffff',
+    word: 'DELETE',
+    color: '#cc66fa',
     fill: '#3e64ff',
     geometry: new THREE.SphereGeometry(12, 64, 64),
-    position: [20, 0, 0],
+    position: [50, 0, 0],
     class: 'geo-1',
   },
 ];
@@ -85,46 +85,70 @@ export default class Canvas {
   }
 
   init() {
-    this.mesh(options);
+    for (let i = 0; i < options.length; i++) {
+      let meshes = new Mesh(options[i], this.scene);
+      meshes.init(options[i], this.scene);
+    }
     this.start();
   }
 
-  mesh(options) {
-    for (let i = 0; i < options.length; i++) {
-      this.options = {
-        word: options[i].word,
-        color: options[i].color,
-        fill: options[i].color,
-        geometry: options[i].geometry,
-        position: options[i].position,
-      };
-      console.log(this.options);
-      // テクスチャの作成
-      this.texture = this.createTexture({
-        text: this.options.word,
-        width: Config.width,
-        height: Config.height,
-        fontSize: 130,
-        color: this.options.fill,
-      });
+  start() {
+    this.resize();
+    this.update();
+  }
 
-      this.geometry = this.options.geometry;
-      this.material = new THREE.RawShaderMaterial({
-        uniforms: {
-          uTexture: { value: this.texture },
-          time: { value: 0.0 },
-          resolution: { value: Config.aspectRatio },
-        },
-        vertexShader: vertexShader,
-        fragmentShader: fragmentShader,
-        transparent: false,
-        side: THREE.DoubleSide,
-      });
-      this.mesh = new THREE.Mesh(this.geometry, this.material);
-      this.mesh.position.set(...this.options.position);
-      this.mesh.rotation.set(0, 0, 0);
-      this.scene.add(this.mesh);
-    }
+  resize() {
+    this.setConfig();
+    this.resizeScene();
+  }
+
+  update() {
+    this.clock.getDelta();
+
+    this.renderer.render(this.scene, this.camera);
+    requestAnimationFrame(this.updateFunction);
+  }
+}
+
+class Mesh {
+  init(options, scene) {
+    this.options = {
+      word: options.word,
+      color: options.color,
+      fill: options.color,
+      geometry: options.geometry,
+      position: options.position,
+    };
+    // テクスチャの作成
+    this.texture = this.createTexture({
+      text: this.options.word,
+      width: Config.width,
+      height: Config.height,
+      fontSize: 130,
+      color: this.options.fill,
+    });
+    this.scene = scene;
+
+    this.create();
+  }
+
+  create() {
+    this.geometry = this.options.geometry;
+    this.material = new THREE.RawShaderMaterial({
+      uniforms: {
+        uTexture: { value: this.texture },
+        time: { value: 0.0 },
+        resolution: { value: Config.aspectRatio },
+      },
+      vertexShader: vertexShader,
+      fragmentShader: fragmentShader,
+      transparent: false,
+      side: THREE.DoubleSide,
+    });
+    this.mesh = new THREE.Mesh(this.geometry, this.material);
+    this.mesh.position.set(...this.options.position);
+    this.mesh.rotation.set(0, 0, 0);
+    this.scene.add(this.mesh);
   }
 
   // 2D Canvasからテクスチャを作成する
@@ -155,7 +179,7 @@ export default class Canvas {
     ctx.fillStyle = options.color;
     ctx.fillText(options.text, -5, 20);
 
-    console.log(textWidth);
+    // console.log(textWidth);
 
     // 文字の輪郭だけ描画
     // ctx.strokeStyle = 'rgba(255, 255, 255, 1.0)'
@@ -176,22 +200,7 @@ export default class Canvas {
     return texture;
   }
 
-  start() {
-    this.resize();
-    this.update();
-  }
-
-  resize() {
-    this.setConfig();
-    this.resizeScene();
-  }
-
-  update() {
-    this.clock.getDelta();
-
+  updateTime() {
     this.material.uniforms.time.value += 0.5;
-
-    this.renderer.render(this.scene, this.camera);
-    requestAnimationFrame(this.updateFunction);
   }
 }
