@@ -4,6 +4,9 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import Config from './_Config';
 import Mesh from './_mesh';
+import fragTorus from './shader/frag.glsl';
+import fragSphere from './shader/fragSphere.glsl';
+import vertBase from './shader/vert.glsl';
 
 const options = [
   {
@@ -12,14 +15,28 @@ const options = [
     fill: '#000000',
     geometry: new THREE.TorusKnotGeometry(9, 3, 768, 3, 4, 3),
     position: [0, 0, 0],
+    fragmentShader: fragTorus,
+    vertexShader: vertBase,
     class: 'geo-1',
   },
   {
-    word: 'SABBATH ',
+    word: 'BLACK SABBATH ',
     color: '#cc66fa',
     fill: '#3e64ff',
     geometry: new THREE.SphereGeometry(12, 64, 64),
     position: [50, 0, 0],
+    fragmentShader: fragSphere,
+    vertexShader: vertBase,
+    class: 'geo-1',
+  },
+  {
+    word: 'あいみょん ',
+    color: '#cc6688',
+    fill: '#3e64ff',
+    geometry: new THREE.BoxGeometry(52, 34, 34),
+    position: [-50, 0, 0],
+    fragmentShader: fragSphere,
+    vertexShader: vertBase,
     class: 'geo-1',
   },
 ];

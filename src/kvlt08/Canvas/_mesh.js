@@ -1,7 +1,5 @@
 import * as THREE from 'three';
 import Config from './_Config';
-import fragmentShader from './shader/frag.glsl';
-import vertexShader from './shader/vert.glsl';
 
 export default class Mesh {
   init(options, scene) {
@@ -11,6 +9,8 @@ export default class Mesh {
       fill: options.color,
       geometry: options.geometry,
       position: options.position,
+      fragmentShader: options.fragmentShader,
+      vertexShader: options.vertexShader,
     };
     // テクスチャの作成
     this.texture = this.createTexture({
@@ -33,8 +33,8 @@ export default class Mesh {
         time: { value: 0.0 },
         resolution: { value: Config.aspectRatio },
       },
-      vertexShader: vertexShader,
-      fragmentShader: fragmentShader,
+      vertexShader: this.options.vertexShader,
+      fragmentShader: this.options.fragmentShader,
       transparent: false,
       side: THREE.DoubleSide,
     });
