@@ -6,7 +6,9 @@ import Config from './_Config';
 import Mesh from './_mesh';
 import fragTorus from './shader/frag.glsl';
 import fragSphere from './shader/fragSphere.glsl';
+import fragBox from './shader/fragBox.glsl';
 import vertBase from './shader/vert.glsl';
+import vertBox from './shader/vertBox.glsl';
 
 const options = [
   {
@@ -27,17 +29,27 @@ const options = [
     position: [50, 0, 0],
     fragmentShader: fragSphere,
     vertexShader: vertBase,
-    class: 'geo-1',
+    class: 'geo-2',
   },
   {
     word: 'あいみょん ',
     color: '#cc6688',
     fill: '#3e64ff',
-    geometry: new THREE.BoxGeometry(52, 34, 34),
+    geometry: new THREE.BoxGeometry(50, 10, 10, 64, 64, 64),
     position: [-50, 0, 0],
-    fragmentShader: fragSphere,
-    vertexShader: vertBase,
-    class: 'geo-1',
+    fragmentShader: fragBox,
+    vertexShader: vertBox,
+    class: 'geo-3',
+  },
+  {
+    word: 'あいみょん ',
+    color: '#cc6688',
+    fill: '#3e64ff',
+    geometry: new THREE.PlaneGeometry(27, 27, 64, 64),
+    position: [0, 30, 0],
+    fragmentShader: fragBox,
+    vertexShader: vertBox,
+    class: 'geo-4',
   },
 ];
 
@@ -103,7 +115,7 @@ export default class Canvas {
     for (let i = 0; i < options.length; i++) {
       let meshes = new Mesh(options[i], this.scene);
       meshes.init(options[i], this.scene);
-      console.log(meshes);
+      // console.log(meshes);
     }
     this.start();
   }
@@ -123,7 +135,7 @@ export default class Canvas {
 
     for (let i = 0; i < this.scene.children.length; i++) {
       let obj = this.scene.children[i].material;
-      console.log(obj);
+      // console.log(obj);
       obj.uniformsNeedUpdate = true;
       obj.uniforms.time.value += 0.5;
     }
