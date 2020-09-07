@@ -45,7 +45,7 @@ void main() {
   vUv = uv;
   vPosition = position;
   vec3 pos = position;
-  pos = rotateVec3(pos, pos.x * 0.1, vec3(1.0, 0.0, 0.0));
+  pos = rotateVec3(pos, pos.x * 0.15 * log(exp(sin(time * 0.1))), vec3(1.0, 0.0, 0.0));
   vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
 
   gl_Position = projectionMatrix * mvPosition;
