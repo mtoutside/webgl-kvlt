@@ -7,8 +7,10 @@ import Mesh from './_mesh';
 import fragTorus from './shader/frag.glsl';
 import fragSphere from './shader/fragSphere.glsl';
 import fragBox from './shader/fragBox.glsl';
+import fragPlane from './shader/fragPlane.glsl';
 import vertBase from './shader/vert.glsl';
 import vertBox from './shader/vertBox.glsl';
+import vertPlane from './shader/vertPlane.glsl';
 
 const options = [
   {
@@ -32,7 +34,7 @@ const options = [
     class: 'geo-2',
   },
   {
-    word: 'あいみょん ',
+    word: 'POSESSED ',
     color: '#cc6688',
     fill: '#3e64ff',
     geometry: new THREE.BoxGeometry(50, 10, 10, 64, 64, 64),
@@ -42,13 +44,13 @@ const options = [
     class: 'geo-3',
   },
   {
-    word: 'あいみょん ',
+    word: 'KYUSS ',
     color: '#cc6688',
     fill: '#3e64ff',
     geometry: new THREE.PlaneGeometry(27, 27, 64, 64),
     position: [0, 30, 0],
-    fragmentShader: fragBox,
-    vertexShader: vertBox,
+    fragmentShader: fragPlane,
+    vertexShader: vertPlane,
     class: 'geo-4',
   },
 ];
