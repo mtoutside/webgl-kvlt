@@ -55,7 +55,7 @@ const options = [
   },
 ];
 
-export default class Canvas {
+export default  class {
   constructor() {
     this.canvas = document.createElement('canvas');
     this.ctx = this.canvas.getContext('2d');
@@ -85,11 +85,10 @@ export default class Canvas {
       1,
       10000
     );
-    this.camera.position.set(0, 0, 50);
+    this.camera.position.set(0, 0, 90);
     this.scene.background = new THREE.Color('#000000');
-    this.z = Math.min(window.innerWidth, window.innerHeight);
-    this.camera.lookAt(0, 0, this.z);
-    this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+    this.camera.lookAt(0, 0, 0);
+    // this.controls = new OrbitControls(this.camera, this.renderer.domElement);
 
     // 初期化
     this.init();
