@@ -1,5 +1,5 @@
 import normalizeWheel from 'normalize-wheel';
-// import Canvas from './Canvas/_index';
+import gsap from 'gsap';
 
 const CLASSNAME_WRAP      = 'js-fullscreen-wrap';
 const CLASSNAME_SECTION   = 'js-fullscreen-section';
@@ -84,7 +84,21 @@ export default class FullscreenSlider {
 
   changeMesh() {
     console.log(this.canvas);
-    this.canvas.scene.rotation.x += 20;
+    const tl = gsap.timeline();
+    if (this.isAscend) {
+      tl.to(this.canvas.scene.position, {
+        duration: 1.5,
+        ease: 'expo.Out',
+        y: '+= 70',
+      }, 0);
+      tl.to(this.canvas.scene.rotation, {
+        duration: 1.5,
+        ease: 'expo.Out',
+        x: '+= 0.2',
+      }, 0);
+    } else {
+      this.canvas.scene.position.y -= 20;
+    }
   }
   changeSection() {
     // Add/Remove the ClassName for change the current section and run the animation.
