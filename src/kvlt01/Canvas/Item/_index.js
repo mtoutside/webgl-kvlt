@@ -6,7 +6,8 @@ import { PlaneBufferGeometry } from 'three/src/geometries/PlaneGeometry';
 import { RawShaderMaterial } from 'three/src/materials/RawShaderMaterial';
 import { CanvasTexture } from 'three/src/textures/CanvasTexture';
 import { LinearFilter, RGBAFormat } from 'three/src/constants';
-import { TweenMax, Power3 } from 'gsap/TweenMax';
+import { gsap, Power3 } from "gsap";
+
 
 import Tweakpane from 'tweakpane';
 
@@ -68,7 +69,7 @@ export default class Item extends Mesh {
       e.preventDefault();
       const uniforms = this.material.uniforms;
 
-      TweenMax.to(uniforms.tween, 1.0, {
+      gsap.to(uniforms.tween, 1.0, {
         value: 1,
         ease: Power3.easeOut,
       });
@@ -77,14 +78,13 @@ export default class Item extends Mesh {
     element.addEventListener('pointerleave', () => {
       const uniforms = this.material.uniforms;
 
-      TweenMax.to(uniforms.tween, 1.0, {
+      gsap.to(uniforms.tween, 1.0, {
         value: 0,
         ease: Power3.easeOut,
       });
     });
   }
 
-  // TODO: 文字数に応じたキャンバスサイズ
   createTexture(options) {
     const canvas = document.createElement('canvas');
     const width = options.width * Config.dpr;
