@@ -13,7 +13,6 @@ const CLASSNAME_HIDE      = 'is-hidden';
 const CLASSNAME_HIDE_ASC  = 'is-hidden-asc';
 const CLASSNAME_HIDE_DESC = 'is-hidden-desc';
 const CLASSNAME_CURRENT   = 'is-current';
-const CLASSNAME_ANIMATE   = 'has-animate';
 
 const INTERVAL_TO_FIRE_WHEEL = 1000;
 const BG_COLORS = [
@@ -97,7 +96,16 @@ export default class FullscreenSlider {
         x: '+= 0.2',
       }, 0);
     } else {
-      this.canvas.scene.position.y -= 20;
+      tl.to(this.canvas.scene.position, {
+        duration: 1.5,
+        ease: 'expo.Out',
+        y: '-= 70',
+      }, 0);
+      tl.to(this.canvas.scene.rotation, {
+        duration: 1.5,
+        ease: 'expo.Out',
+        x: '-= 0.2',
+      }, 0);
     }
   }
   changeSection() {
