@@ -6,7 +6,7 @@ export default class Mesh {
     this.options = {
       word: options.word,
       color: options.color,
-      fill: options.color,
+      fill: options.fill,
       geometry: options.geometry,
       position: options.position,
       fragmentShader: options.fragmentShader,
@@ -18,7 +18,7 @@ export default class Mesh {
       width: Config.width,
       height: Config.height,
       fontSize: 130,
-      color: this.options.fill,
+      color: this.options.color,
     });
     this.scene = scene;
 
@@ -42,6 +42,7 @@ export default class Mesh {
     this.mesh.position.set(...this.options.position);
     this.mesh.rotation.set(0, 0, 0);
     this.scene.add(this.mesh);
+    // this.scene.background = new THREE.Color(this.options.fill);
   }
 
   // 2D Canvasからテクスチャを作成する
@@ -51,7 +52,7 @@ export default class Mesh {
     const ctx = canvas.getContext('2d');
 
     // measureTextするためいったん設定
-    const fontFamily = 'Ubuntu Condensed';
+    const fontFamily = 'Helvetica';
     ctx.font = `bold ${options.fontSize * Config.dpr}px '${fontFamily}'`;
     const textWidth = ctx.measureText(options.text);
 

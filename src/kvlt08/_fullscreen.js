@@ -85,27 +85,28 @@ export default class FullscreenSlider {
     console.log(this.canvas);
     const tl = gsap.timeline();
     if (this.isAscend) {
+      this.canvas.scene.background = this.options.fill;
       tl.to(this.canvas.scene.position, {
         duration: 1.5,
         ease: 'expo.Out',
         y: '+= 70',
       }, 0);
-      tl.to(this.canvas.scene.rotation, {
-        duration: 1.5,
-        ease: 'expo.Out',
-        x: '+= 0.2',
-      }, 0);
+      // tl.to(this.canvas.scene.rotation, {
+      //   duration: 1.5,
+      //   ease: 'expo.Out',
+      //   x: '+= 0.2',
+      // }, 0);
     } else {
       tl.to(this.canvas.scene.position, {
         duration: 1.5,
         ease: 'expo.Out',
         y: '-= 70',
       }, 0);
-      tl.to(this.canvas.scene.rotation, {
-        duration: 1.5,
-        ease: 'expo.Out',
-        x: '-= 0.2',
-      }, 0);
+      // tl.to(this.canvas.scene.rotation, {
+      //   duration: 1.5,
+      //   ease: 'expo.Out',
+      //   x: '-= 0.2',
+      // }, 0);
     }
   }
   changeSection() {
