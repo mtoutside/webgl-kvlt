@@ -1,5 +1,6 @@
 import normalizeWheel from 'normalize-wheel';
 import gsap from 'gsap';
+import options from './Canvas/_options';
 
 const CLASSNAME_WRAP      = 'js-fullscreen-wrap';
 const CLASSNAME_SECTION   = 'js-fullscreen-section';
@@ -26,6 +27,7 @@ const BG_COLORS = [
 
 export default class FullscreenSlider {
   constructor(contents, resolution, canvas) {
+    this.options = options;
     this.elmWrap = contents.querySelector(`.${CLASSNAME_WRAP}`);
     this.elmSection = contents.querySelectorAll(`.${CLASSNAME_SECTION}`);
     this.elmPager = contents.querySelector(`.${CLASSNAME_PAGER}`);
@@ -34,7 +36,7 @@ export default class FullscreenSlider {
 
     this.currentId = 0;
     this.previousId = 0;
-    this.maxId = this.elmSection.length - 1;
+    this.maxId = this.options.length - 1;
     this.isAscend = true;
     this.wheelTimer = null;
     this.isWheeling = false;
@@ -57,7 +59,7 @@ export default class FullscreenSlider {
     // this.elmBg.style.backgroundColor = BG_COLORS[this.currentId];
   }
   goToPrev() {
-    // if (this.currentId === 0) return;
+    if (this.currentId === 0) return;
     this.previousId = this.currentId;
     this.currentId--;
     this.isAscend = false;
@@ -65,7 +67,7 @@ export default class FullscreenSlider {
     this.changeMesh();
   }
   goToNext() {
-    // if (this.currentId >= this.maxId) return;
+    if (this.currentId >= this.maxId) return;
     this.previousId = this.currentId;
     this.currentId++;
     this.isAscend = true;
@@ -85,7 +87,7 @@ export default class FullscreenSlider {
     console.log(this.canvas);
     const tl = gsap.timeline();
     if (this.isAscend) {
-      this.canvas.scene.background = this.options.fill;
+      this.canvas.scene.background = this.options[this.currentId].fill;
       tl.to(this.canvas.scene.position, {
         duration: 1.5,
         ease: 'expo.Out',
@@ -97,6 +99,7 @@ export default class FullscreenSlider {
       //   x: '+= 0.2',
       // }, 0);
     } else {
+      this.canvas.scene.background = this.options[this.currentId].fill;
       tl.to(this.canvas.scene.position, {
         duration: 1.5,
         ease: 'expo.Out',

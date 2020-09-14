@@ -10,7 +10,7 @@ const options = [
   {
     word: 'INTO THE VOID ',
     color: '#ffffff',
-    fill: new THREE.Color('0xC0FFEE'),
+    fill: new THREE.Color(0x000000),
     geometry: new THREE.TorusKnotGeometry(9, 3, 768, 3, 4, 3),
     position: [0, 0, 0],
     fragmentShader: fragTorus,
@@ -20,7 +20,7 @@ const options = [
   {
     word: 'BLACK SABBATH ',
     color: '#cc66fa',
-    fill: new THREE.Color('0xAA0066'),
+    fill: new THREE.Color(0xAA0066),
     geometry: new THREE.SphereGeometry(12, 64, 64),
     position: [0, -70, 0],
     fragmentShader: fragSphere,
@@ -30,7 +30,7 @@ const options = [
   {
     word: 'POSESSED ',
     color: '#cc6688',
-    fill: new THREE.Color('0x3e64ff'),
+    fill: new THREE.Color(0x3e64ff),
     geometry: new THREE.BoxGeometry(50, 10, 10, 64, 64, 64),
     position: [0, -140, 0],
     fragmentShader: fragBox,
@@ -40,7 +40,7 @@ const options = [
   {
     word: 'KYUSS ',
     color: '#cc6688',
-    fill: '#3e64ff',
+    fill: new THREE.Color(0xbbccdd),
     geometry: new THREE.PlaneGeometry(27, 27, 64, 64),
     position: [0, -210, 0],
     fragmentShader: fragPlane,
