@@ -1,5 +1,6 @@
 const path = require('path');
 const glob = require('glob');
+const webpack = require('webpack');
 
 const SRC_PATH = path.resolve(__dirname, '../src');
 const PUBLIC_PATH = path.resolve(__dirname, '../docs');
@@ -16,6 +17,7 @@ glob
   });
 
 console.log(entries);
+
 module.exports = {
   entry: entries,
 
@@ -46,16 +48,22 @@ module.exports = {
     ],
   },
 
-  // optimization: {
-  //   splitChunks: {
-  //     cacheGroups: {
-  //       vendor: {
-  //         test: /node_modules/,
-  //         name: 'vendor.js',
-  //         chunks: 'initial',
-  //         enforce: true,
-  //       },
-  //     },
-  //   },
-  // },
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /node_modules/,
+          name: 'vendor.js',
+          chunks: 'initial',
+          enforce: true,
+        },
+      },
+    },
+  },
+
+  plugins: [
+    new webpack.ProvidePlugin({
+      THREE: 'three'
+    }),
+  ],
 };
