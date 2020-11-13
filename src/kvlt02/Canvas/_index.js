@@ -76,8 +76,6 @@ export default class Canvas {
     // テクスチャの作成
     this.texture = this.createTexture({
       text: 'KVLT',
-      width: Config.width,
-      height: Config.height,
       fontSize: 130,
     });
 
@@ -101,7 +99,14 @@ export default class Canvas {
     this.scene.add(this.mesh);
   }
 
-  // 2D Canvasからテクスチャを作成する
+  /**
+   * 2D Canvasからテクスチャを作成する
+   * @param {Object} options
+   * @param {stirng} options.text 描画したい文字列
+   * @param {number} options.fontSize フォントサイズ
+   * @return {Object} テクスチャを返す。
+   * @memberof Canvas
+   */
   createTexture(options) {
     // Canvas要素を作成
     const canvas = document.createElement('canvas');
