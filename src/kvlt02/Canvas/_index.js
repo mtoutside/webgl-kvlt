@@ -186,7 +186,6 @@ export default class Canvas {
   }
 
   update() {
-    // 最大60fpsでレンダリングをループ
     requestAnimationFrame(this.updateFunction);
     this.time = performance.now() * 0.001;
 

@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', () => {
   WebFontLoader.load({
     google: {
       families: ['Ubuntu Condensed'],
-      // families: ['UnifrakturCook'],
     },
     active: () => {
       new Canvas();
