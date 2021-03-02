@@ -2,7 +2,8 @@
 
 // 必要なクラスをimport
 import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import  {Geometry}  from 'three/examples/jsm/deprecated/Geometry.js';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import Config from './_Config';
 
 export default class Canvas {
@@ -116,7 +117,7 @@ export default class Canvas {
 
   createParticles() {
     const imageData = this.getImageData(this.video);
-    this.geometry = new THREE.Geometry();
+    this.geometry = new THREE.BufferGeometry();
     this.geometry.morphAttributes = {};
     this.material = new THREE.PointsMaterial({
       size: 1,
