@@ -2,18 +2,18 @@ import normalizeWheel from 'normalize-wheel';
 import gsap from 'gsap';
 import options from './Canvas/_options';
 
-const CLASSNAME_WRAP      = 'js-fullscreen-wrap';
-const CLASSNAME_SECTION   = 'js-fullscreen-section';
-const CLASSNAME_PAGER     = 'js-fullscreen-pager';
-const CLASSNAME_POINTER   = 'js-fullscreen-pager-pointer';
-const CLASSNAME_BG        = 'js-fullscreen-bg';
-const CLASSNAME_SHOW      = 'is-shown';
-const CLASSNAME_SHOW_ASC  = 'is-shown-asc';
+const CLASSNAME_WRAP = 'js-fullscreen-wrap';
+const CLASSNAME_SECTION = 'js-fullscreen-section';
+const CLASSNAME_PAGER = 'js-fullscreen-pager';
+const CLASSNAME_POINTER = 'js-fullscreen-pager-pointer';
+const CLASSNAME_BG = 'js-fullscreen-bg';
+const CLASSNAME_SHOW = 'is-shown';
+const CLASSNAME_SHOW_ASC = 'is-shown-asc';
 const CLASSNAME_SHOW_DESC = 'is-shown-desc';
-const CLASSNAME_HIDE      = 'is-hidden';
-const CLASSNAME_HIDE_ASC  = 'is-hidden-asc';
+const CLASSNAME_HIDE = 'is-hidden';
+const CLASSNAME_HIDE_ASC = 'is-hidden-asc';
 const CLASSNAME_HIDE_DESC = 'is-hidden-desc';
-const CLASSNAME_CURRENT   = 'is-current';
+const CLASSNAME_CURRENT = 'is-current';
 
 const INTERVAL_TO_FIRE_WHEEL = 1000;
 const BG_COLORS = [
@@ -88,11 +88,15 @@ export default class FullscreenSlider {
     const tl = gsap.timeline();
     if (this.isAscend) {
       this.canvas.scene.background = this.options[this.currentId].fill;
-      tl.to(this.canvas.scene.position, {
-        duration: 1.5,
-        ease: 'expo.Out',
-        y: '+= 70',
-      }, 0);
+      tl.to(
+        this.canvas.scene.position,
+        {
+          duration: 1.5,
+          ease: 'expo.Out',
+          y: '+= 70',
+        },
+        0
+      );
       // tl.to(this.canvas.scene.rotation, {
       //   duration: 1.5,
       //   ease: 'expo.Out',
@@ -100,11 +104,15 @@ export default class FullscreenSlider {
       // }, 0);
     } else {
       this.canvas.scene.background = this.options[this.currentId].fill;
-      tl.to(this.canvas.scene.position, {
-        duration: 1.5,
-        ease: 'expo.Out',
-        y: '-= 70',
-      }, 0);
+      tl.to(
+        this.canvas.scene.position,
+        {
+          duration: 1.5,
+          ease: 'expo.Out',
+          y: '-= 70',
+        },
+        0
+      );
       // tl.to(this.canvas.scene.rotation, {
       //   duration: 1.5,
       //   ease: 'expo.Out',
@@ -145,15 +153,15 @@ export default class FullscreenSlider {
   }
   resize(resolution) {
     // Resize the wrapper element to the argument resolution.
-    this.elmWrap.style.width = `${resolution.x}px`
-    this.elmWrap.style.height = `${resolution.y}px`
+    this.elmWrap.style.width = `${resolution.x}px`;
+    this.elmWrap.style.height = `${resolution.y}px`;
   }
   on() {
     // Binding each events.
 
     // For wheel events
     // =====
-    const wheel = (e) => {
+    const wheel = e => {
       e.preventDefault();
 
       const n = normalizeWheel(e);
@@ -172,7 +180,6 @@ export default class FullscreenSlider {
         this.isWheeling = true;
         this.wheelTimer = setTimeout(() => {
           this.isWheeling = false;
-
         }, INTERVAL_TO_FIRE_WHEEL);
       }
     };
@@ -181,41 +188,53 @@ export default class FullscreenSlider {
 
     // For touch events
     // =====
-    this.elmWrap.addEventListener('touchstart', (e) => {
-      this.touchStartX = e.touches[0].clientX;
-      this.touchStartY = e.touches[0].clientY;
-    }, false);
+    this.elmWrap.addEventListener(
+      'touchstart',
+      e => {
+        this.touchStartX = e.touches[0].clientX;
+        this.touchStartY = e.touches[0].clientY;
+      },
+      false
+    );
 
-    this.elmWrap.addEventListener('touchmove', (e) => {
-      if (this.isTouchMoved === true) return;
+    this.elmWrap.addEventListener(
+      'touchmove',
+      e => {
+        if (this.isTouchMoved === true) return;
 
-      const diffX = this.touchStartX - e.touches[0].clientX;
-      const diffY = this.touchStartY - e.touches[0].clientY;
+        const diffX = this.touchStartX - e.touches[0].clientX;
+        const diffY = this.touchStartY - e.touches[0].clientY;
 
-      if (Math.abs(diffX) > 20) {
-        return;
-      } else if (diffY < -20) {
-        e.preventDefault();
-        this.goToPrev();
-      } else if (diffY > 20) {
-        e.preventDefault();
-        this.goToNext();
-      }
+        if (Math.abs(diffX) > 20) {
+          return;
+        } else if (diffY < -20) {
+          e.preventDefault();
+          this.goToPrev();
+        } else if (diffY > 20) {
+          e.preventDefault();
+          this.goToNext();
+        }
 
-      if (Math.abs(diffY) > 20) {
-        this.isTouchMoved = true;
-      }
-    }, false);
+        if (Math.abs(diffY) > 20) {
+          this.isTouchMoved = true;
+        }
+      },
+      false
+    );
 
-    this.elmWrap.addEventListener('touchend', (e) => {
-      this.isTouchMoved = false;
-    }, false);
+    this.elmWrap.addEventListener(
+      'touchend',
+      e => {
+        this.isTouchMoved = false;
+      },
+      false
+    );
 
     // For pager
     // ======
     for (var i = 0; i < this.elmPagerPointers.length; i++) {
       const id = i;
-      this.elmPagerPointers[i].addEventListener('click', (e) => {
+      this.elmPagerPointers[i].addEventListener('click', e => {
         e.preventDefault();
         this.goToTarget(id);
       });

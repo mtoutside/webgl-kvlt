@@ -6,8 +6,7 @@ import { PlaneBufferGeometry } from 'three/src/geometries/PlaneGeometry';
 import { RawShaderMaterial } from 'three/src/materials/RawShaderMaterial';
 import { CanvasTexture } from 'three/src/textures/CanvasTexture';
 import { LinearFilter, RGBAFormat } from 'three/src/constants';
-import { gsap, Power3 } from "gsap";
-
+import { gsap, Power3 } from 'gsap';
 
 import Tweakpane from 'tweakpane';
 

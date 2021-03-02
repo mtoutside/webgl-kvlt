@@ -7,27 +7,57 @@ import fragmentShader2 from './shader/frag2.glsl';
 import vertexShader from './shader/vert.glsl';
 
 const info = [
-  {name:"Rhino", text:"Rhinoceroses are large, herbivorous mammals identified by their characteristic horned snouts. The word \"rhinoceros\" comes from the Greek \"rhino\" (nose) and \"ceros\" (horn). "},
-  {name:"Lion", text:"Lions go on the hunt for food mostly from dusk till dawn. Female lions do 85-90% of the prides hunting, whilst the male lions patrol the territory and protect the pride."},
-  {name:"Leopard", text:"Leopards are skilled climbers, and like to rest in the branches of trees during the day. They are strong beasts, too, and can carry their heavy prey up into the trees so that pesky scavengers, such as hyenas, don’t steal their meal!"},
-  {name:"Elephant", text:"These magnificent mammals spend between 12 to 18 hours eating grass, plants and fruit every single day! They use their long trunks to smell their food and lift it up into their mouth – yum!"},
-  {name:"Giraffe", text:"Female giraffes give birth standing up. The result? Newborns are welcomed to the world with a 1.5m drop to the ground! Ouch! But these infants are quick to get on their feet – within 30 minutes they are standing, and only hours later they”re able to run with their mothers."}
+  {
+    name: 'Rhino',
+    text:
+      'Rhinoceroses are large, herbivorous mammals identified by their characteristic horned snouts. The word "rhinoceros" comes from the Greek "rhino" (nose) and "ceros" (horn). ',
+  },
+  {
+    name: 'Lion',
+    text:
+      'Lions go on the hunt for food mostly from dusk till dawn. Female lions do 85-90% of the prides hunting, whilst the male lions patrol the territory and protect the pride.',
+  },
+  {
+    name: 'Leopard',
+    text:
+      'Leopards are skilled climbers, and like to rest in the branches of trees during the day. They are strong beasts, too, and can carry their heavy prey up into the trees so that pesky scavengers, such as hyenas, don’t steal their meal!',
+  },
+  {
+    name: 'Elephant',
+    text:
+      'These magnificent mammals spend between 12 to 18 hours eating grass, plants and fruit every single day! They use their long trunks to smell their food and lift it up into their mouth – yum!',
+  },
+  {
+    name: 'Giraffe',
+    text:
+      'Female giraffes give birth standing up. The result? Newborns are welcomed to the world with a 1.5m drop to the ground! Ouch! But these infants are quick to get on their feet – within 30 minutes they are standing, and only hours later they”re able to run with their mothers.',
+  },
 ];
 
-const config = { font:'Josefin Sans', size:16, h1size:30, padding:10, colour:'#fff', width:512, height:256, zpos:0.005, planesize: { width:1, height:0.5 } };
+const config = {
+  font: 'Josefin Sans',
+  size: 16,
+  h1size: 30,
+  padding: 10,
+  colour: '#fff',
+  width: 512,
+  height: 256,
+  zpos: 0.005,
+  planesize: { width: 1, height: 0.5 },
+};
 
 const uniforms2 = {
   u_time: { value: 0.0 },
   u_duration: { value: 2.0 },
-  u_twirls: { value: 7 }
-}
+  u_twirls: { value: 7 },
+};
 
-const material2 = new THREE.ShaderMaterial( {
+const material2 = new THREE.ShaderMaterial({
   uniforms: uniforms2,
   vertexShader: vertexShader,
   fragmentShader: fragmentShader2,
-  transparent: true
-} );
+  transparent: true,
+});
 
 const canvasText = new CanvasText(scene, info[1], config, material2);
 
@@ -93,24 +123,24 @@ export default class {
   }
 
   initMesh() {
-     this.geometry = new THREE.PlaneGeometry( 2, 1.5 );
-     this.uniforms = {
+    this.geometry = new THREE.PlaneGeometry(2, 1.5);
+    this.uniforms = {
       u_tex_1: { value: null },
       u_tex_2: { value: null },
       u_duration: { value: 2.0 },
       u_time: { value: 0.0 },
-      u_mouse: { value:{ x:0.0, y:0.0 }},
-      u_resolution: { value:{ x:0, y:0 }}
-    }
+      u_mouse: { value: { x: 0.0, y: 0.0 } },
+      u_resolution: { value: { x: 0, y: 0 } },
+    };
 
-    this.material = new THREE.ShaderMaterial( {
+    this.material = new THREE.ShaderMaterial({
       uniforms: uniforms,
       vertexShader: vertexShader,
-      fragmentShader: fragmentShader
+      fragmentShader: fragmentShader,
     });
 
-    this.plane = new THREE.Mesh( this.geometry, this.material );
-    this.scene.add( this.plane );
+    this.plane = new THREE.Mesh(this.geometry, this.material);
+    this.scene.add(this.plane);
   }
 
   start() {

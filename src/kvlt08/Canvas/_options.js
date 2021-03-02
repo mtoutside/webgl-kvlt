@@ -20,7 +20,7 @@ const options = [
   {
     word: 'BLACK SABBATH ',
     color: '#cc66fa',
-    fill: new THREE.Color(0xAA0066),
+    fill: new THREE.Color(0xaa0066),
     geometry: new THREE.SphereGeometry(12, 64, 64),
     position: [0, -70, 0],
     fragmentShader: fragSphere,
