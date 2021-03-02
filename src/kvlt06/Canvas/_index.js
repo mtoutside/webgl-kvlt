@@ -2,7 +2,7 @@
 
 // 必要なクラスをimport
 import * as THREE from 'three';
-import  {Geometry}  from 'three/examples/jsm/deprecated/Geometry.js';
+// import  {Geometry}  from 'three/examples/jsm/deprecated/Geometry.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import Config from './_Config';
 
@@ -12,6 +12,7 @@ export default class Canvas {
     this.ctx = this.canvas.getContext('2d');
     this.clock = new THREE.Clock();
     this.container = document.getElementById('CanvasContainer');
+    this.particleIndexArray = [];
     this.setConfig();
 
     this.renderer = new THREE.WebGLRenderer({
@@ -125,18 +126,28 @@ export default class Canvas {
       sizeAttenuation: false,
     });
 
+    const vertices = [];
+
     // 格子状にパーティクルを並べる
     for (let y = 0, height = imageData.height; y < height; y++) {
       for (let x = 0, width = imageData.width; x < width; x++) {
-        const vertex = new THREE.Vector3(
-          x - imageData.width / 2,
-          -y + imageData.height / 2,
-          0
-        );
-        this.geometry.vertices.push(vertex);
+        let index = (x + y * width) * 4;
+        this.particleIndexArray.push(index);
+        let gray =
+          (imageData.data[index] +
+            imageData.data[index + 1] +
+            imageData.data[index + 2]) /
+          3;
+        let z = gray < 300 ? gray : 10000;
+        vertices.push(x - imageData.width / 2, -y + imageData.height / 2,  0);
       }
     }
 
+    const verticesArray = new Float32Array(vertices);
+    this.geometry.addAttribute(
+      'position',
+      new THREE.BufferAttribute(verticesArray, 3)
+    );
     this.particles = new THREE.Points(this.geometry, this.material);
     this.scene.add(this.particles);
   }
@@ -185,55 +196,53 @@ export default class Canvas {
       const useCache = parseInt(this.t) % 2 === 0;
 
       const imageData = this.getImageData(this.video, useCache);
-
-      console.log(
-        (Math.floor(this.t) * imageData.width) %
-          this.particles.geometry.vertices.length
-      );
+      let count = 0;
+      const particliCount = this.particles.geometry.attributes.position.array.length;
       const segment =
-        (Math.floor(this.t) * imageData.width) %
-        this.particles.geometry.vertices.length;
+      (Math.floor(this.t) * imageData.width * 3) %
+      particliCount;
 
       // 一番最初なにも描画されないので一回だけ実行
       if (this.checkFirst) {
         for (
-          let i = 0, length = this.particles.geometry.vertices.length;
+          let i = 0, length = particliCount;
           i < length;
-          i++
+          i+= 3
         ) {
-          const particle = this.particles.geometry.vertices[i];
-          if (i % density === 0) {
-            particle.z = 10000;
+          if (i + 2  % density === 0) {
+            this.particles.geometry.attributes.position.array[i + 2] = 10000;
             continue;
           }
-          let index = i * 4;
+          // let index = i * 4;
+          let index = this.particleIndexArray[count];
           let gray =
             (imageData.data[index] +
               imageData.data[index + 1] +
               imageData.data[index + 2]) /
             3;
-          let threshold = 300;
+          let threshold = 400;
           if (gray < threshold) {
-            particle.z = gray;
+            this.particles.geometry.attributes.position.array[i + 2] = gray * 1;
           } else {
-            particle.z = 10000;
+            this.particles.geometry.attributes.position.array[i + 2] = 10000;
           }
+          count++;
         }
-
+        this.particles.geometry.attributes.position.needsUpdate = true;
         this.checkFirst = false;
+        count = 0;
       }
 
       for (
-        let i = segment, length = this.particles.geometry.vertices.length;
+        let i = segment, length = particliCount;
         i < length;
-        i++
+        i+= 3
       ) {
-        const particle = this.particles.geometry.vertices[i];
-        if (i % density === 0) {
-          particle.z = 10000;
+        let index = this.particleIndexArray[i / 3];
+        if (i + 2 % density === 0) {
+          this.particles.geometry.attributes.position.array[i + 2] = 10000;
           continue;
         }
-        let index = i * 4;
         let gray =
           (imageData.data[index] +
             imageData.data[index + 1] +
@@ -241,13 +250,14 @@ export default class Canvas {
           3;
         let threshold = 300;
         if (gray < threshold) {
-          particle.z = gray;
+          this.particles.geometry.attributes.position.array[i + 2] = gray;
         } else {
-          particle.z = 10000;
+          this.particles.geometry.attributes.position.array[i + 2] = 10000;
         }
+        count++;
       }
 
-      this.particles.geometry.verticesNeedUpdate = true;
+      this.particles.geometry.attributes.position.needsUpdate = true;
     }
 
     requestAnimationFrame(this.updateFunction);
