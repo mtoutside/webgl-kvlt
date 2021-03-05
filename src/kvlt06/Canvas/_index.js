@@ -144,7 +144,7 @@ export default class Canvas {
     }
 
     const verticesArray = new Float32Array(vertices);
-    this.geometry.addAttribute(
+    this.geometry.setAttribute(
       'position',
       new THREE.BufferAttribute(verticesArray, 3)
     );
