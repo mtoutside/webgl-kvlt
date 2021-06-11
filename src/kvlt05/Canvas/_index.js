@@ -118,10 +118,7 @@ export default class Canvas {
       this.camera.position.set(0, 0, 2);
       this.scene.userData.camera = this.camera;
 
-      this.controls = new OrbitControls(
-        this.scene.userData.camera,
-        this.scene.userData.element
-      );
+      this.controls = new OrbitControls(this.scene.userData.camera, this.scene.userData.element);
       this.controls.minDistane = 2;
       this.controls.maxDistane = 5;
       this.controls.enablePan = false;

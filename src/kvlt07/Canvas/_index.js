@@ -51,12 +51,7 @@ export default class Canvas {
 
     this.scene = new THREE.Scene();
     // Cameraを作成
-    this.camera = new THREE.PerspectiveCamera(
-      45,
-      window.innerWidth / window.innerHeight,
-      1,
-      10000
-    );
+    this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);
     this.camera.position.set(0, 0, 100);
     this.z = Math.min(window.innerWidth, window.innerHeight);
     this.camera.lookAt(0, 0, this.z);
@@ -91,9 +86,12 @@ export default class Canvas {
         ? {
             getUserMedia: c => {
               return new Promise((y, n) => {
-                (
-                  navigator.mozGetUserMedia || navigator.webkitGetUserMedia
-                ).call(navigator, c, y, n);
+                (navigator.mozGetUserMedia || navigator.webkitGetUserMedia).call(
+                  navigator,
+                  c,
+                  y,
+                  n
+                );
               });
             },
           }
@@ -198,10 +196,7 @@ export default class Canvas {
         this.particleIndexArray.push(index);
 
         let gray =
-          (imageData.data[index] +
-            imageData.data[index + 1] +
-            imageData.data[index + 2]) /
-          3;
+          (imageData.data[index] + imageData.data[index + 1] + imageData.data[index + 2]) / 3;
         let z = gray < 300 ? gray : 10000;
         vertices.push(x - imageData.width / 2, -y + imageData.height / 2, z);
 
@@ -213,16 +208,10 @@ export default class Canvas {
     }
 
     const verticesArray = new Float32Array(vertices);
-    this.geometry.addAttribute(
-      'position',
-      new THREE.BufferAttribute(verticesArray, 3)
-    );
+    this.geometry.addAttribute('position', new THREE.BufferAttribute(verticesArray, 3));
 
     const colorsArray = new Float32Array(colors);
-    this.geometry.addAttribute(
-      'color',
-      new THREE.BufferAttribute(colorsArray, 3)
-    );
+    this.geometry.addAttribute('color', new THREE.BufferAttribute(colorsArray, 3));
 
     this.particles = new THREE.Points(this.geometry, this.material);
     this.scene.add(this.particles);
@@ -298,10 +287,7 @@ export default class Canvas {
 
       const bass = this.getFrequencyRangeValue(data, this.frequencyRange.bass);
       const mid = this.getFrequencyRangeValue(data, this.frequencyRange.mid);
-      const treble = this.getFrequencyRangeValue(
-        data,
-        this.frequencyRange.treble
-      );
+      const treble = this.getFrequencyRangeValue(data, this.frequencyRange.treble);
 
       r = bass;
       g = mid;
@@ -315,28 +301,21 @@ export default class Canvas {
       let count = 0;
 
       for (
-        let i = 0,
-          length = this.particles.geometry.attributes.position.array.length;
+        let i = 0, length = this.particles.geometry.attributes.position.array.length;
         i < length;
         i += 3
       ) {
         let index = this.particleIndexArray[count];
         let gray =
-          (imageData.data[index] +
-            imageData.data[index + 1] +
-            imageData.data[index + 2]) /
-          3;
+          (imageData.data[index] + imageData.data[index + 1] + imageData.data[index + 2]) / 3;
         let threshold = 300;
         if (gray < threshold) {
           if (gray < threshold / 3) {
-            this.particles.geometry.attributes.position.array[i + 2] =
-              gray * r * 5;
+            this.particles.geometry.attributes.position.array[i + 2] = gray * r * 5;
           } else if (gray < threshold / 2) {
-            this.particles.geometry.attributes.position.array[i + 2] =
-              gray * g * 5;
+            this.particles.geometry.attributes.position.array[i + 2] = gray * g * 5;
           } else {
-            this.particles.geometry.attributes.position.array[i + 2] =
-              gray * b * 5;
+            this.particles.geometry.attributes.position.array[i + 2] = gray * b * 5;
           }
         } else {
           this.particles.geometry.attributes.position.array[i + 2] = 10000;

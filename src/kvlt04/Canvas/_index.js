@@ -50,12 +50,7 @@ export default class Canvas {
 
     this.scene = new THREE.Scene();
     // Cameraを作成
-    this.camera = new THREE.PerspectiveCamera(
-      45,
-      window.innerWidth / window.innerHeight,
-      1,
-      10000
-    );
+    this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);
     this.camera.position.set(0, 0, 100);
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
 
