@@ -10,9 +10,9 @@ uniform mat4 modelViewMatrix;
 uniform mat4 modelMatrix;
 uniform mat4 projectionMatrix;
 
-varying vec4 vMvPosition;
-varying vec2 vUv;
-varying vec3 vPosition;
+/* varying vec4 vMvPosition; */
+/* varying vec2 vUv; */
+/* varying vec3 vPosition; */
 
 float map(float value, float inputMin, float inputMax, float outputMin, float outputMax) {
   return outputMin + (outputMax - outputMin) * ((value - inputMin) / (inputMax - inputMin));
@@ -37,8 +37,11 @@ vec3 rotateVec3(vec3 p, float angle, vec3 axis){
   return m * p;
 }
 void main() {
-  vUv = uv;
-  vPosition = position;
+  /* vUv = uv; */
+  /* vPosition = position; */
+  gl_PointSize = 1.0;
+  float t = time * 0.02;
+  position.x +=sin(t);
   vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
 
   gl_Position = projectionMatrix * mvPosition;

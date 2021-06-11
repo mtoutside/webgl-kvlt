@@ -1,8 +1,8 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
-// import fragmentShader from './shader/frag.glsl';
-// import vertexShader from './shader/vert.glsl';
+import fragmentShader from './shader/frag.glsl';
+import vertexShader from './shader/vert.glsl';
 import Config from './_Config';
 
 export default class Canvas {
@@ -101,21 +101,22 @@ export default class Canvas {
   createParticles(vertices) {
     this.geometry = new THREE.BufferGeometry();
     this.geometry.morphAttributes = {};
-    this.material = new THREE.PointsMaterial({
-      size: 1,
-      color: 0xff3b6c,
-      sizeAttenuation: false,
-      transparent: true,
-      depthWrite: false,
-    });
-    // this.material = new THREE.ShaderMaterial({
-    //   uniforms: this.uniforms,
-    //   vertexShader: vertexShader,
-    //   fragmentShader: fragmentShader,
+    // this.material = new THREE.PointsMaterial({
+    //   size: 1,
+    //   color: 0xff3b6c,
+    //   sizeAttenuation: false,
     //   transparent: true,
     //   depthWrite: false,
-    //   blending: THREE.AdditiveBlending,
     // });
+
+    this.material = new THREE.RawShaderMaterial({
+      uniforms: this.uniforms,
+      vertexShader: vertexShader,
+      fragmentShader: fragmentShader,
+      transparent: true,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+    });
     const verticesArray = new Float32Array(vertices);
     this.geometry.setAttribute('position', new THREE.BufferAttribute(verticesArray, 3));
 
