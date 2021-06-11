@@ -107,15 +107,10 @@ export default class FloatingCharsGeometry {
       'charIndex',
       new THREE.BufferAttribute(new Uint16Array(this.charIndices), 1)
     );
-    this.geometry.addAttribute(
-      'uv',
-      new THREE.BufferAttribute(new Float32Array(this.uvs), 2)
-    );
+    this.geometry.addAttribute('uv', new THREE.BufferAttribute(new Float32Array(this.uvs), 2));
 
     // index
-    this.geometry.setIndex(
-      new THREE.BufferAttribute(new Uint16Array(this.indices), 1)
-    );
+    this.geometry.setIndex(new THREE.BufferAttribute(new Uint16Array(this.indices), 1));
 
     // 配列としては使用しないので削除
     delete this.vertices;

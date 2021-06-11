@@ -1,8 +1,4 @@
-'use strict';
-
-// 必要なクラスをimport
 import * as THREE from 'three';
-// import  {Geometry}  from 'three/examples/jsm/deprecated/Geometry.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import Config from './_Config';
 
@@ -31,12 +27,7 @@ export default class Canvas {
 
     this.scene = new THREE.Scene();
     // Cameraを作成
-    this.camera = new THREE.PerspectiveCamera(
-      45,
-      window.innerWidth / window.innerHeight,
-      1,
-      10000
-    );
+    this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);
     this.camera.position.set(0, 0, 1000);
     this.z = Math.min(window.innerWidth, window.innerHeight);
     this.camera.lookAt(0, 0, this.z);
@@ -71,9 +62,12 @@ export default class Canvas {
         ? {
             getUserMedia: c => {
               return new Promise((y, n) => {
-                (
-                  navigator.mozGetUserMedia || navigator.webkitGetUserMedia
-                ).call(navigator, c, y, n);
+                (navigator.mozGetUserMedia || navigator.webkitGetUserMedia).call(
+                  navigator,
+                  c,
+                  y,
+                  n
+                );
               });
             },
           }
@@ -134,21 +128,15 @@ export default class Canvas {
         let index = (x + y * width) * 4;
         this.particleIndexArray.push(index);
         let gray =
-          (imageData.data[index] +
-            imageData.data[index + 1] +
-            imageData.data[index + 2]) /
-          3;
+          (imageData.data[index] + imageData.data[index + 1] + imageData.data[index + 2]) / 3;
         let z = gray < 300 ? gray : 10000;
-        vertices.push(x - imageData.width / 2, -y + imageData.height / 2,  0);
+        vertices.push(x - imageData.width / 2, -y + imageData.height / 2, 0);
       }
     }
 
     console.log(vertices);
     const verticesArray = new Float32Array(vertices);
-    this.geometry.setAttribute(
-      'position',
-      new THREE.BufferAttribute(verticesArray, 3)
-    );
+    this.geometry.setAttribute('position', new THREE.BufferAttribute(verticesArray, 3));
     this.particles = new THREE.Points(this.geometry, this.material);
     this.scene.add(this.particles);
   }
@@ -199,28 +187,19 @@ export default class Canvas {
       const imageData = this.getImageData(this.video, useCache);
       let count = 0;
       const particliCount = this.particles.geometry.attributes.position.array.length;
-      const segment =
-      (Math.floor(this.t) * imageData.width * 3) %
-      particliCount;
+      const segment = (Math.floor(this.t) * imageData.width * 3) % particliCount;
 
       // 一番最初なにも描画されないので一回だけ実行
       if (this.checkFirst) {
-        for (
-          let i = 0, length = particliCount;
-          i < length;
-          i+= 3
-        ) {
-          if (i + 2  % density === 0) {
+        for (let i = 0, length = particliCount; i < length; i += 3) {
+          if (i + (2 % density) === 0) {
             this.particles.geometry.attributes.position.array[i + 2] = 10000;
             continue;
           }
           // let index = i * 4;
           let index = this.particleIndexArray[count];
           let gray =
-            (imageData.data[index] +
-              imageData.data[index + 1] +
-              imageData.data[index + 2]) /
-            3;
+            (imageData.data[index] + imageData.data[index + 1] + imageData.data[index + 2]) / 3;
           let threshold = 400;
           if (gray < threshold) {
             this.particles.geometry.attributes.position.array[i + 2] = gray * 1;
@@ -234,21 +213,14 @@ export default class Canvas {
         count = 0;
       }
 
-      for (
-        let i = segment, length = particliCount;
-        i < length;
-        i+= 3
-      ) {
+      for (let i = segment, length = particliCount; i < length; i += 3) {
         let index = this.particleIndexArray[i / 3];
-        if (i + 2 % density === 0) {
+        if (i + (2 % density) === 0) {
           this.particles.geometry.attributes.position.array[i + 2] = 10000;
           continue;
         }
         let gray =
-          (imageData.data[index] +
-            imageData.data[index + 1] +
-            imageData.data[index + 2]) /
-          3;
+          (imageData.data[index] + imageData.data[index + 1] + imageData.data[index + 2]) / 3;
         let threshold = 300;
         if (gray < threshold) {
           this.particles.geometry.attributes.position.array[i + 2] = gray;

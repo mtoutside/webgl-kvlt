@@ -37,10 +37,7 @@ class FloatingChars extends THREE.Mesh {
     this.numTextureGridCols = numTextureGridCols;
     this.textureGridsize = textureGridsize;
 
-    this.geometry = new FloatingCharsGeometry(
-      this.numChars,
-      this.charWidth
-    ).getGeometry();
+    this.geometry = new FloatingCharsGeometry(this.numChars, this.charWidth).getGeometry();
     console.log(this.geometry);
     this.material = new THREE.RawShaderMaterial({
       transparent: true,
@@ -70,23 +67,15 @@ class FloatingChars extends THREE.Mesh {
 
   createTexture(txt, fontFamily) {
     const textureTxtLength = txt.length;
-    const numTextureGridRows = Math.ceil(
-      textureTxtLength / this.numTextureGridCols
-    );
+    const numTextureGridRows = Math.ceil(textureTxtLength / this.numTextureGridCols);
 
     this.txtCanvas = document.createElement('canvas');
     this.txtCanvasCtx = this.txtCanvas.getContext('2d');
     this.txtCanvas.width = this.textureGridsize * this.numTextureGridCols;
     this.txtCanvas.height = this.textureGridsize * numTextureGridRows;
 
-    this.txtCanvasCtx.clearRect(
-      0,
-      0,
-      this.txtCanvas.width,
-      this.txtCanvas.height
-    );
-    this.txtCanvasCtx.font = `normal ${this.textureGridsize *
-      0.8}px ${fontFamily}`;
+    this.txtCanvasCtx.clearRect(0, 0, this.txtCanvas.width, this.txtCanvas.height);
+    this.txtCanvasCtx.font = `normal ${this.textureGridsize * 0.8}px ${fontFamily}`;
     this.txtCanvasCtx.textAlign = 'center';
     this.txtCanvasCtx.fillStyle = '#ffffff';
 

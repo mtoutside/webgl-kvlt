@@ -29,12 +29,7 @@ export default class {
 
     this.scene = new THREE.Scene();
     // Cameraを作成
-    this.camera = new THREE.PerspectiveCamera(
-      45,
-      window.innerWidth / window.innerHeight,
-      1,
-      10000
-    );
+    this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);
     this.camera.position.set(0, 0, 90);
     this.scene.background = new THREE.Color(0x000000);
     this.camera.lookAt(0, 0, 0);

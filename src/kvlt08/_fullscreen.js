@@ -16,14 +16,7 @@ const CLASSNAME_HIDE_DESC = 'is-hidden-desc';
 const CLASSNAME_CURRENT = 'is-current';
 
 const INTERVAL_TO_FIRE_WHEEL = 1000;
-const BG_COLORS = [
-  '#0fb4ae',
-  '#7bc8bc',
-  '#868eaf',
-  '#ec6867',
-  '#f8bb0e',
-  '#c0ffee',
-];
+const BG_COLORS = ['#0fb4ae', '#7bc8bc', '#868eaf', '#ec6867', '#f8bb0e', '#c0ffee'];
 
 export default class FullscreenSlider {
   constructor(contents, resolution, canvas) {
