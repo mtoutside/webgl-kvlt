@@ -101,13 +101,6 @@ export default class Canvas {
   createParticles(vertices) {
     this.geometry = new THREE.BufferGeometry();
     this.geometry.morphAttributes = {};
-    // this.material = new THREE.PointsMaterial({
-    //   size: 1,
-    //   color: 0xff3b6c,
-    //   sizeAttenuation: false,
-    //   transparent: true,
-    //   depthWrite: false,
-    // });
 
     this.material = new THREE.RawShaderMaterial({
       uniforms: this.uniforms,
