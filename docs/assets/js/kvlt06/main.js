@@ -1,1 +1,194 @@
-!function(e){function t(t){for(var r,s,o=t[0],h=t[1],c=t[2],l=0,u=[];l<o.length;l++)s=o[l],Object.prototype.hasOwnProperty.call(a,s)&&a[s]&&u.push(a[s][0]),a[s]=0;for(r in h)Object.prototype.hasOwnProperty.call(h,r)&&(e[r]=h[r]);for(d&&d(t);u.length;)u.shift()();return n.push.apply(n,c||[]),i()}function i(){for(var e,t=0;t<n.length;t++){for(var i=n[t],r=!0,o=1;o<i.length;o++){var h=i[o];0!==a[h]&&(r=!1)}r&&(n.splice(t--,1),e=s(s.s=i[0]))}return e}var r={},a={6:0},n=[];function s(t){if(r[t])return r[t].exports;var i=r[t]={i:t,l:!1,exports:{}};return e[t].call(i.exports,i,i.exports,s),i.l=!0,i.exports}s.m=e,s.c=r,s.d=function(e,t,i){s.o(e,t)||Object.defineProperty(e,t,{enumerable:!0,get:i})},s.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},s.t=function(e,t){if(1&t&&(e=s(e)),8&t)return e;if(4&t&&"object"==typeof e&&e&&e.__esModule)return e;var i=Object.create(null);if(s.r(i),Object.defineProperty(i,"default",{enumerable:!0,value:e}),2&t&&"string"!=typeof e)for(var r in e)s.d(i,r,function(t){return e[t]}.bind(null,r));return i},s.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return s.d(t,"a",t),t},s.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},s.p="";var o=window.webpackJsonp=window.webpackJsonp||[],h=o.push.bind(o);o.push=t,o=o.slice();for(var c=0;c<o.length;c++)t(o[c]);var d=h;n.push([76,0]),i()}({76:function(e,t,i){"use strict";i.r(t);var r=i(1),a=i(17),n={width:100,height:100,halfWidth:50,halfHeight:50,cameraZ:500,dpr:1,aspectRatio:1};function s(e,t){for(var i=0;i<t.length;i++){var r=t[i];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}new(function(){function e(){!function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}(this,e),this.canvas=document.createElement("canvas"),this.ctx=this.canvas.getContext("2d"),this.clock=new r.Clock,this.container=document.getElementById("CanvasContainer"),this.particleIndexArray=[],this.setConfig(),this.renderer=new r.WebGLRenderer({alpha:!0,antialias:!0}),this.renderer.setSize(n.width,n.height),this.renderer.setPixelRatio(n.dpr),this.container.appendChild(this.renderer.domElement),this.resizeFunction=this.resize.bind(this),this.updateFunction=this.update.bind(this),window.addEventListener("resize",this.resizeFunction),this.scene=new r.Scene,this.camera=new r.PerspectiveCamera(45,window.innerWidth/window.innerHeight,1,1e4),this.camera.position.set(0,0,1e3),this.z=Math.min(window.innerWidth,window.innerHeight),this.camera.lookAt(0,0,this.z),this.controls=new a.a(this.camera,this.renderer.domElement),this.init()}var t,i,o;return t=e,(i=[{key:"setConfig",value:function(){var e=this.container.getBoundingClientRect(),t=e.width,i=e.height;n.dpr=Math.min(window.devicePixelRatio,2),n.width=t,n.height=i,n.halfWidth=n.width/2,n.halfHeight=n.height/2,n.aspectRatio=n.width/n.height}},{key:"resizeScene",value:function(){this.renderer.setSize(n.width,n.height)}},{key:"init",value:function(){this.navigatorMediaDevices=navigator.mediaDevices||(navigator.mozGetUserMedia||navigator.webkitGetUserMedia?{getUserMedia:function(e){return new Promise((function(t,i){(navigator.mozGetUserMedia||navigator.webkitGetUserMedia).call(navigator,e,t,i)}))}}:null),this.navigatorMediaDevices&&this.initVideo(),this.start()}},{key:"initVideo",value:function(){var e=this;this.video=document.getElementById("video"),this.video.autoplay=!0,navigator.mediaDevices.getUserMedia({video:!0,audio:!1}).then((function(t){e.video.srcObject=t,e.video.addEventListener("loadeddata",(function(){e.videoWidth=e.video.videoWidth,e.videoHeight=e.video.videoHeight,e.createParticles()}))})).catch((function(e){console.log(e)}))}},{key:"createParticles",value:function(){var e=this.getImageData(this.video);this.geometry=new r.BufferGeometry,this.geometry.morphAttributes={},this.material=new r.PointsMaterial({size:1,color:16726892,sizeAttenuation:!1});for(var t=[],i=0,a=e.height;i<a;i++)for(var n=0,s=e.width;n<s;n++){var o=4*(n+i*s);this.particleIndexArray.push(o),e.data[o],e.data[o+1],e.data[o+2],t.push(n-e.width/2,-i+e.height/2,0)}console.log(t);var h=new Float32Array(t);this.geometry.setAttribute("position",new r.BufferAttribute(h,3)),this.particles=new r.Points(this.geometry,this.material),this.scene.add(this.particles)}},{key:"getImageData",value:function(e,t){if(t&&this.imageCache)return this.imageCache;var i=e.videoWidth,r=e.videoHeight;return this.canvas.width=i,this.canvas.height=r,this.ctx.translate(i,0),this.ctx.scale(-1,1),this.ctx.drawImage(e,0,0),this.imageCache=this.ctx.getImageData(0,0,i,r),this.imageCache}},{key:"start",value:function(){this.checkFirst=!0,this.resize(),this.update()}},{key:"resize",value:function(){this.setConfig(),this.resizeScene()}},{key:"update",value:function(){if(this.clock.getDelta(),this.t=50*this.clock.elapsedTime,this.particles){this.particles.material.color.r=1,this.particles.material.color.g=1,this.particles.material.color.b=1;var e=parseInt(this.t)%2==0,t=this.getImageData(this.video,e),i=0,r=this.particles.geometry.attributes.position.array.length,a=Math.floor(this.t)*t.width*3%r;if(this.checkFirst){for(var n=0,s=r;n<s;n+=3)if(n+0!==0){var o=this.particleIndexArray[i],h=(t.data[o]+t.data[o+1]+t.data[o+2])/3;this.particles.geometry.attributes.position.array[n+2]=h<400?1*h:1e4,i++}else this.particles.geometry.attributes.position.array[n+2]=1e4;this.particles.geometry.attributes.position.needsUpdate=!0,this.checkFirst=!1,i=0}for(var c=a,d=r;c<d;c+=3){var l=this.particleIndexArray[c/3];if(c+0!==0){var u=(t.data[l]+t.data[l+1]+t.data[l+2])/3;this.particles.geometry.attributes.position.array[c+2]=u<300?u:1e4,i++}else this.particles.geometry.attributes.position.array[c+2]=1e4}this.particles.geometry.attributes.position.needsUpdate=!0}requestAnimationFrame(this.updateFunction),this.renderer.render(this.scene,this.camera)}}])&&s(t.prototype,i),o&&s(t,o),e}())}});
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// install a JSONP callback for chunk loading
+/******/ 	function webpackJsonpCallback(data) {
+/******/ 		var chunkIds = data[0];
+/******/ 		var moreModules = data[1];
+/******/ 		var executeModules = data[2];
+/******/
+/******/ 		// add "moreModules" to the modules object,
+/******/ 		// then flag all "chunkIds" as loaded and fire callback
+/******/ 		var moduleId, chunkId, i = 0, resolves = [];
+/******/ 		for(;i < chunkIds.length; i++) {
+/******/ 			chunkId = chunkIds[i];
+/******/ 			if(Object.prototype.hasOwnProperty.call(installedChunks, chunkId) && installedChunks[chunkId]) {
+/******/ 				resolves.push(installedChunks[chunkId][0]);
+/******/ 			}
+/******/ 			installedChunks[chunkId] = 0;
+/******/ 		}
+/******/ 		for(moduleId in moreModules) {
+/******/ 			if(Object.prototype.hasOwnProperty.call(moreModules, moduleId)) {
+/******/ 				modules[moduleId] = moreModules[moduleId];
+/******/ 			}
+/******/ 		}
+/******/ 		if(parentJsonpFunction) parentJsonpFunction(data);
+/******/
+/******/ 		while(resolves.length) {
+/******/ 			resolves.shift()();
+/******/ 		}
+/******/
+/******/ 		// add entry modules from loaded chunk to deferred list
+/******/ 		deferredModules.push.apply(deferredModules, executeModules || []);
+/******/
+/******/ 		// run deferred modules when all chunks ready
+/******/ 		return checkDeferredModules();
+/******/ 	};
+/******/ 	function checkDeferredModules() {
+/******/ 		var result;
+/******/ 		for(var i = 0; i < deferredModules.length; i++) {
+/******/ 			var deferredModule = deferredModules[i];
+/******/ 			var fulfilled = true;
+/******/ 			for(var j = 1; j < deferredModule.length; j++) {
+/******/ 				var depId = deferredModule[j];
+/******/ 				if(installedChunks[depId] !== 0) fulfilled = false;
+/******/ 			}
+/******/ 			if(fulfilled) {
+/******/ 				deferredModules.splice(i--, 1);
+/******/ 				result = __webpack_require__(__webpack_require__.s = deferredModule[0]);
+/******/ 			}
+/******/ 		}
+/******/
+/******/ 		return result;
+/******/ 	}
+/******/
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// object to store loaded and loading chunks
+/******/ 	// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 	// Promise = chunk loading, 0 = chunk loaded
+/******/ 	var installedChunks = {
+/******/ 		"kvlt06/main.js": 0
+/******/ 	};
+/******/
+/******/ 	var deferredModules = [];
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/ 	var jsonpArray = window["webpackJsonp"] = window["webpackJsonp"] || [];
+/******/ 	var oldJsonpFunction = jsonpArray.push.bind(jsonpArray);
+/******/ 	jsonpArray.push = webpackJsonpCallback;
+/******/ 	jsonpArray = jsonpArray.slice();
+/******/ 	for(var i = 0; i < jsonpArray.length; i++) webpackJsonpCallback(jsonpArray[i]);
+/******/ 	var parentJsonpFunction = oldJsonpFunction;
+/******/
+/******/
+/******/ 	// add entry module to deferred list
+/******/ 	deferredModules.push(["./src/kvlt06/main.js","vendor.js"]);
+/******/ 	// run deferred modules when ready
+/******/ 	return checkDeferredModules();
+/******/ })
+/************************************************************************/
+/******/ ({
+
+/***/ "./src/kvlt06/Canvas/_Config.js":
+/*!**************************************!*\
+  !*** ./src/kvlt06/Canvas/_Config.js ***!
+  \**************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\nvar Config = {\n  width: 100,\n  // Canvasの幅\n  height: 100,\n  // Canvasの高さ\n  halfWidth: 50,\n  halfHeight: 50,\n  cameraZ: 500,\n  // カメラのz座標\n  dpr: 1,\n  // device pixel ratio\n  aspectRatio: 1.0 // 画面アスペクト比\n\n};\n/* harmony default export */ __webpack_exports__[\"default\"] = (Config);\n\n//# sourceURL=webpack:///./src/kvlt06/Canvas/_Config.js?");
+
+/***/ }),
+
+/***/ "./src/kvlt06/Canvas/_index.js":
+/*!*************************************!*\
+  !*** ./src/kvlt06/Canvas/_index.js ***!
+  \*************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return Canvas; });\n/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ \"./node_modules/three/build/three.module.js\");\n/* harmony import */ var three_examples_jsm_controls_OrbitControls_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! three/examples/jsm/controls/OrbitControls.js */ \"./node_modules/three/examples/jsm/controls/OrbitControls.js\");\n/* harmony import */ var _Config__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./_Config */ \"./src/kvlt06/Canvas/_Config.js\");\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nfunction _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }\n\nfunction _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }\n\n\n\n\n\nvar Canvas = /*#__PURE__*/function () {\n  function Canvas() {\n    _classCallCheck(this, Canvas);\n\n    this.canvas = document.createElement('canvas');\n    this.ctx = this.canvas.getContext('2d');\n    this.clock = new three__WEBPACK_IMPORTED_MODULE_0__[\"Clock\"]();\n    this.container = document.getElementById('CanvasContainer');\n    this.particleIndexArray = [];\n    this.setConfig();\n    this.renderer = new three__WEBPACK_IMPORTED_MODULE_0__[\"WebGLRenderer\"]({\n      alpha: true,\n      antialias: true\n    });\n    this.renderer.setSize(_Config__WEBPACK_IMPORTED_MODULE_2__[\"default\"].width, _Config__WEBPACK_IMPORTED_MODULE_2__[\"default\"].height);\n    this.renderer.setPixelRatio(_Config__WEBPACK_IMPORTED_MODULE_2__[\"default\"].dpr);\n    this.container.appendChild(this.renderer.domElement);\n    this.resizeFunction = this.resize.bind(this);\n    this.updateFunction = this.update.bind(this); // リサイズイベントを設定\n\n    window.addEventListener('resize', this.resizeFunction);\n    this.scene = new three__WEBPACK_IMPORTED_MODULE_0__[\"Scene\"](); // Cameraを作成\n\n    this.camera = new three__WEBPACK_IMPORTED_MODULE_0__[\"PerspectiveCamera\"](45, window.innerWidth / window.innerHeight, 1, 10000);\n    this.camera.position.set(0, 0, 1000);\n    this.z = Math.min(window.innerWidth, window.innerHeight);\n    this.camera.lookAt(0, 0, this.z);\n    this.controls = new three_examples_jsm_controls_OrbitControls_js__WEBPACK_IMPORTED_MODULE_1__[\"OrbitControls\"](this.camera, this.renderer.domElement); // 初期化\n\n    this.init();\n  }\n\n  _createClass(Canvas, [{\n    key: \"setConfig\",\n    value: function setConfig() {\n      // 親要素のサイズを取得\n      var domRect = this.container.getBoundingClientRect();\n      var width = domRect.width;\n      var height = domRect.height;\n      _Config__WEBPACK_IMPORTED_MODULE_2__[\"default\"].dpr = Math.min(window.devicePixelRatio, 2);\n      _Config__WEBPACK_IMPORTED_MODULE_2__[\"default\"].width = width;\n      _Config__WEBPACK_IMPORTED_MODULE_2__[\"default\"].height = height;\n      _Config__WEBPACK_IMPORTED_MODULE_2__[\"default\"].halfWidth = _Config__WEBPACK_IMPORTED_MODULE_2__[\"default\"].width / 2;\n      _Config__WEBPACK_IMPORTED_MODULE_2__[\"default\"].halfHeight = _Config__WEBPACK_IMPORTED_MODULE_2__[\"default\"].height / 2;\n      _Config__WEBPACK_IMPORTED_MODULE_2__[\"default\"].aspectRatio = _Config__WEBPACK_IMPORTED_MODULE_2__[\"default\"].width / _Config__WEBPACK_IMPORTED_MODULE_2__[\"default\"].height;\n    }\n  }, {\n    key: \"resizeScene\",\n    value: function resizeScene() {\n      this.renderer.setSize(_Config__WEBPACK_IMPORTED_MODULE_2__[\"default\"].width, _Config__WEBPACK_IMPORTED_MODULE_2__[\"default\"].height);\n    }\n  }, {\n    key: \"init\",\n    value: function init() {\n      this.navigatorMediaDevices = navigator.mediaDevices || (navigator.mozGetUserMedia || navigator.webkitGetUserMedia ? {\n        getUserMedia: function getUserMedia(c) {\n          return new Promise(function (y, n) {\n            (navigator.mozGetUserMedia || navigator.webkitGetUserMedia).call(navigator, c, y, n);\n          });\n        }\n      } : null);\n\n      if (this.navigatorMediaDevices) {\n        this.initVideo();\n      }\n\n      this.start();\n    }\n    /**\n     * initVideo.\n     * カメラ初期化\n     */\n\n  }, {\n    key: \"initVideo\",\n    value: function initVideo() {\n      var _this = this;\n\n      this.video = document.getElementById('video');\n      this.video.autoplay = true;\n      var option = {\n        video: true,\n        audio: false\n      };\n      navigator.mediaDevices.getUserMedia(option).then(function (stream) {\n        _this.video.srcObject = stream;\n\n        _this.video.addEventListener('loadeddata', function () {\n          _this.videoWidth = _this.video.videoWidth;\n          _this.videoHeight = _this.video.videoHeight;\n\n          _this.createParticles();\n        });\n      })[\"catch\"](function (error) {\n        console.log(error); // this.showAlert();\n      });\n    }\n  }, {\n    key: \"createParticles\",\n    value: function createParticles() {\n      var imageData = this.getImageData(this.video);\n      this.geometry = new three__WEBPACK_IMPORTED_MODULE_0__[\"BufferGeometry\"]();\n      this.geometry.morphAttributes = {};\n      this.material = new three__WEBPACK_IMPORTED_MODULE_0__[\"PointsMaterial\"]({\n        size: 1,\n        color: 0xff3b6c,\n        sizeAttenuation: false\n      });\n      var vertices = []; // 格子状にパーティクルを並べる\n\n      for (var y = 0, height = imageData.height; y < height; y++) {\n        for (var x = 0, width = imageData.width; x < width; x++) {\n          var index = (x + y * width) * 4;\n          this.particleIndexArray.push(index);\n          var gray = (imageData.data[index] + imageData.data[index + 1] + imageData.data[index + 2]) / 3;\n          var z = gray < 300 ? gray : 10000;\n          vertices.push(x - imageData.width / 2, -y + imageData.height / 2, 0);\n        }\n      }\n\n      console.log(vertices);\n      var verticesArray = new Float32Array(vertices);\n      this.geometry.setAttribute('position', new three__WEBPACK_IMPORTED_MODULE_0__[\"BufferAttribute\"](verticesArray, 3));\n      this.particles = new three__WEBPACK_IMPORTED_MODULE_0__[\"Points\"](this.geometry, this.material);\n      this.scene.add(this.particles);\n    }\n  }, {\n    key: \"getImageData\",\n    value: function getImageData(image, useCache) {\n      // フレーム止まる\n      if (useCache && this.imageCache) {\n        return this.imageCache;\n      }\n\n      var w = image.videoWidth;\n      var h = image.videoHeight;\n      this.canvas.width = w;\n      this.canvas.height = h;\n      this.ctx.translate(w, 0);\n      this.ctx.scale(-1, 1);\n      this.ctx.drawImage(image, 0, 0);\n      this.imageCache = this.ctx.getImageData(0, 0, w, h);\n      return this.imageCache;\n    }\n  }, {\n    key: \"start\",\n    value: function start() {\n      this.checkFirst = true; // 初回描画判定\n\n      this.resize();\n      this.update();\n    }\n  }, {\n    key: \"resize\",\n    value: function resize() {\n      this.setConfig();\n      this.resizeScene();\n    }\n  }, {\n    key: \"update\",\n    value: function update() {\n      this.clock.getDelta();\n      this.t = this.clock.elapsedTime * 50; // video\n\n      if (this.particles) {\n        this.particles.material.color.r = 1;\n        this.particles.material.color.g = 1;\n        this.particles.material.color.b = 1;\n        var density = 2;\n        var useCache = parseInt(this.t) % 2 === 0;\n        var imageData = this.getImageData(this.video, useCache);\n        var count = 0;\n        var particliCount = this.particles.geometry.attributes.position.array.length;\n        var segment = Math.floor(this.t) * imageData.width * 3 % particliCount; // 一番最初なにも描画されないので一回だけ実行\n\n        if (this.checkFirst) {\n          for (var i = 0, length = particliCount; i < length; i += 3) {\n            if (i + 2 % density === 0) {\n              this.particles.geometry.attributes.position.array[i + 2] = 10000;\n              continue;\n            } // let index = i * 4;\n\n\n            var index = this.particleIndexArray[count];\n            var gray = (imageData.data[index] + imageData.data[index + 1] + imageData.data[index + 2]) / 3;\n            var threshold = 400;\n\n            if (gray < threshold) {\n              this.particles.geometry.attributes.position.array[i + 2] = gray * 1;\n            } else {\n              this.particles.geometry.attributes.position.array[i + 2] = 10000;\n            }\n\n            count++;\n          }\n\n          this.particles.geometry.attributes.position.needsUpdate = true;\n          this.checkFirst = false;\n          count = 0;\n        }\n\n        for (var _i = segment, _length = particliCount; _i < _length; _i += 3) {\n          var _index = this.particleIndexArray[_i / 3];\n\n          if (_i + 2 % density === 0) {\n            this.particles.geometry.attributes.position.array[_i + 2] = 10000;\n            continue;\n          }\n\n          var _gray = (imageData.data[_index] + imageData.data[_index + 1] + imageData.data[_index + 2]) / 3;\n\n          var _threshold = 300;\n\n          if (_gray < _threshold) {\n            this.particles.geometry.attributes.position.array[_i + 2] = _gray;\n          } else {\n            this.particles.geometry.attributes.position.array[_i + 2] = 10000;\n          }\n\n          count++;\n        }\n\n        this.particles.geometry.attributes.position.needsUpdate = true;\n      }\n\n      requestAnimationFrame(this.updateFunction);\n      this.renderer.render(this.scene, this.camera);\n    }\n  }]);\n\n  return Canvas;\n}();\n\n\n\n//# sourceURL=webpack:///./src/kvlt06/Canvas/_index.js?");
+
+/***/ }),
+
+/***/ "./src/kvlt06/main.js":
+/*!****************************!*\
+  !*** ./src/kvlt06/main.js ***!
+  \****************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _Canvas_index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Canvas/_index */ \"./src/kvlt06/Canvas/_index.js\");\n\n\n(function () {\n  new _Canvas_index__WEBPACK_IMPORTED_MODULE_0__[\"default\"]();\n})();\n\n//# sourceURL=webpack:///./src/kvlt06/main.js?");
+
+/***/ })
+
+/******/ });

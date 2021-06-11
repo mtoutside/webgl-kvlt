@@ -41,7 +41,7 @@ void main() {
   /* vPosition = position; */
   gl_PointSize = 1.0;
   float t = time * 0.02;
-  position.x +=sin(t);
+  /* position.x +=sin(t); */
   vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
 
   gl_Position = projectionMatrix * mvPosition;
