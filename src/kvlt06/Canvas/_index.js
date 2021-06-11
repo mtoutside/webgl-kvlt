@@ -143,6 +143,7 @@ export default class Canvas {
       }
     }
 
+    console.log(vertices);
     const verticesArray = new Float32Array(vertices);
     this.geometry.setAttribute(
       'position',

@@ -1,5 +1,3 @@
-'use strict';
-
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
@@ -45,12 +43,7 @@ export default class Canvas {
 
     this.scene = new THREE.Scene();
     // Cameraを作成
-    this.camera = new THREE.PerspectiveCamera(
-      45,
-      window.innerWidth / window.innerHeight,
-      1,
-      10000
-    );
+    this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);
     this.camera.position.set(0, 0, 100);
     this.directLight = new THREE.DirectionalLight(0x888888, 1);
     this.ambLight = new THREE.AmbientLight(0xffffff, 0.65);
@@ -84,110 +77,63 @@ export default class Canvas {
   }
 
   init() {
-
     this.start();
   }
 
   initObject() {
     const objLoader = new OBJLoader();
     const vertices = [];
-    this.objGeometory = new THREE.BufferGeometry();
     let objData;
-    objLoader.load('./assets/images/skull.obj', (root) => {
-      if(root) {
+    objLoader.load('./assets/images/skull.obj', root => {
+      if (root) {
         root.rotation.x = 30;
         root.rotation.z = 0;
-        this.scene.add(root);
+        // this.scene.add(root);
         objData = root.children[3].geometry.attributes.position.array;
-        for(let i = 0; i < 100; i++) {
-          console.log(`XYZ ${i}: ${objData[i]}, ${objData[i + 1]}, ${objData[i + 2]}`);
+        for (let i = 0; i < objData.length; i++) {
+          vertices.push(objData[i]);
         }
+        this.createParticles(vertices);
       }
     });
   }
 
-  createParticles() {
-    const imageData = this.getImageData(this.video);
+  createParticles(vertices) {
     this.geometry = new THREE.BufferGeometry();
     this.geometry.morphAttributes = {};
-    this.material = new THREE.ShaderMaterial({
-      uniforms: this.uniforms,
-      vertexShader: vertexShader,
-      fragmentShader: fragmentShader,
+    this.material = new THREE.PointsMaterial({
+      size: 1,
+      color: 0xff3b6c,
+      sizeAttenuation: false,
       transparent: true,
       depthWrite: false,
-      blending: THREE.AdditiveBlending,
     });
-
-    const vertices = [];
-    const colors = [];
-
-    let colorsPerFace = ['#ff4b78', '#16e36d', '#162cf8', '#2016e3'];
-
-    const step = 3;
-
-    // 格子状にパーティクルを並べる
-    for (let y = 0, height = imageData.height; y < height; y += step) {
-      for (let x = 0, width = imageData.width; x < width; x += step) {
-        let index = (x + y * width) * 4;
-        this.particleIndexArray.push(index);
-
-        let gray =
-          (imageData.data[index] +
-            imageData.data[index + 1] +
-            imageData.data[index + 2]) /
-          3;
-        let z = gray < 300 ? gray : 10000;
-        vertices.push(x - imageData.width / 2, -y + imageData.height / 2, z);
-
-        const rgbColor = this.hexToRgb(
-          colorsPerFace[Math.floor(Math.random() * colorsPerFace.length)]
-        );
-        colors.push(rgbColor.r, rgbColor.g, rgbColor.b);
-      }
-    }
-
+    // this.material = new THREE.ShaderMaterial({
+    //   uniforms: this.uniforms,
+    //   vertexShader: vertexShader,
+    //   fragmentShader: fragmentShader,
+    //   transparent: true,
+    //   depthWrite: false,
+    //   blending: THREE.AdditiveBlending,
+    // });
     const verticesArray = new Float32Array(vertices);
-    this.geometry.addAttribute(
-      'position',
-      new THREE.BufferAttribute(verticesArray, 3)
-    );
+    this.geometry.setAttribute('position', new THREE.BufferAttribute(verticesArray, 3));
 
-    const colorsArray = new Float32Array(colors);
-    this.geometry.addAttribute(
-      'color',
-      new THREE.BufferAttribute(colorsArray, 3)
-    );
+    // const colorsArray = new Float32Array(colors);
+    // this.geometry.addAttribute('color', new THREE.BufferAttribute(colorsArray, 3));
 
     this.particles = new THREE.Points(this.geometry, this.material);
+    this.particles.rotation.x = 30;
+    this.particles.rotation.z = 0;
     this.scene.add(this.particles);
   }
 
-  getImageData(image, useCache) {
-    if (useCache && this.imageCache) {
-      return this.imageCache;
-    }
-
-    const w = image.videoWidth;
-    const h = image.videoHeight;
-
-    this.canvas.width = w;
-    this.canvas.height = h;
-
-    this.ctx.translate(w, 0);
-    this.ctx.scale(-1, 1);
-    this.ctx.drawImage(image, 0, 0);
-    this.imageCache = this.ctx.getImageData(0, 0, w, h);
-
-    return this.imageCache;
-  }
-
-  mesh() {
-    this.geometry = new THREE.BoxGeometry(10, 10, 10);
-    this.material = new THREE.MeshNormalMaterial();
-    this.mesh = new THREE.Mesh(this.geometry, this.material);
-    this.scene.add(this.mesh);
-  }
+  // mesh() {
+  //   this.geometry = new THREE.BoxGeometry(10, 10, 10);
+  //   this.material = new THREE.MeshNormalMaterial();
+  //   this.mesh = new THREE.Mesh(this.geometry, this.material);
+  //   this.scene.add(this.mesh);
+  // }
 
   start() {
     this.initObject();
