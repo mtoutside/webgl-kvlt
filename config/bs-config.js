@@ -14,7 +14,7 @@
  */
 module.exports = {
     "ui": false,
-    "files": ["./docs/**/*"],
+    "files": ["./public/**/*"],
     "watchEvents": [
         "change"
     ],
@@ -25,7 +25,7 @@ module.exports = {
         "ignoreInitial": true
     },
     "server": {
-        "baseDir": "./docs/"
+        "baseDir": "./public/"
     },
     "proxy": false,
     "port": 3000,

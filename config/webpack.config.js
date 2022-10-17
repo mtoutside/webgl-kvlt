@@ -3,7 +3,7 @@ const glob = require('glob');
 const webpack = require('webpack');
 
 const SRC_PATH = path.resolve(__dirname, '../src');
-const PUBLIC_PATH = path.resolve(__dirname, '../docs');
+const PUBLIC_PATH = path.resolve(__dirname, '../public');
 
 const entries = {};
 
