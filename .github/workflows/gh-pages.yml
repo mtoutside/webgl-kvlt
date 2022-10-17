@@ -23,7 +23,7 @@ jobs:
       - name: prod build
         run: npm run prod
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v1
         with:
           retention-days: 10
           path: docs
