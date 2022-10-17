@@ -26,7 +26,7 @@ jobs:
         uses: actions/upload-pages-artifact@v1
         with:
           retention-days: 1
-          path: docs/
+          path: public/
 
   # Deployment job
   deploy:
