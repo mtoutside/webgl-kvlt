@@ -24,8 +24,8 @@ importers:
         specifier: ^0.14.1
         version: 0.14.1
       three:
-        specifier: ^0.137.0
-        version: 0.137.5
+        specifier: ^0.181.2
+        version: 0.181.2
       tweakpane:
         specifier: ^1.6.1
         version: 1.6.1
@@ -1858,8 +1858,8 @@ packages:
   text-table@0.2.0:
     resolution: {integrity: sha512-N+8UisAXDGk8PFXP4HAzVR9nbfmVJ3zYLAWiTIoqC5v5isinhr+r5uaO8+7r3BMfuNIufIsA7RdpVgacC2cSpw==}
 
-  three@0.137.5:
-    resolution: {integrity: sha512-rTyr+HDFxjnN8+N/guZjDgfVxgHptZQpf6xfL/Mo7a5JYIFwK6tAq3bzxYYB4Ae0RosDZlDuP+X5aXDXz+XnHQ==}
+  three@0.181.2:
+    resolution: {integrity: sha512-k/CjiZ80bYss6Qs7/ex1TBlPD11whT9oKfT8oTGiHa34W4JRd1NiH/Tr1DbHWQ2/vMUypxksLnF2CfmlmM5XFQ==}
 
   to-regex-range@5.0.1:
     resolution: {integrity: sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ==}
@@ -4031,7 +4031,7 @@ snapshots:
 
   text-table@0.2.0: {}
 
-  three@0.137.5: {}
+  three@0.181.2: {}
 
   to-regex-range@5.0.1:
     dependencies:

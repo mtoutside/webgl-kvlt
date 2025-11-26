@@ -1,7 +1,7 @@
 'use strict';
 
 // 必要なクラスをimport
-import { WebGLRenderer } from 'three/src/renderers/WebGLRenderer';
+import { WebGLRenderer } from 'three';
 
 import Config from './_Config';
 

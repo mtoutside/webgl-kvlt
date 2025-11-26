@@ -1,11 +1,14 @@
-import { Scene } from 'three/src/scenes/Scene';
-import { OrthographicCamera } from 'three/src/cameras/OrthographicCamera';
-import { WebGLRenderer } from 'three/src/renderers/WebGLRenderer';
-import { Mesh } from 'three/src/objects/Mesh';
-import { PlaneBufferGeometry } from 'three/src/geometries/PlaneGeometry';
-import { RawShaderMaterial } from 'three/src/materials/RawShaderMaterial';
-import { CanvasTexture } from 'three/src/textures/CanvasTexture';
-import { LinearFilter, RGBAFormat } from 'three/src/constants';
+import {
+  CanvasTexture,
+  LinearFilter,
+  Mesh,
+  OrthographicCamera,
+  PlaneGeometry,
+  RawShaderMaterial,
+  RGBAFormat,
+  Scene,
+  WebGLRenderer,
+} from 'three';
 
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
@@ -71,7 +74,7 @@ export default class Canvas {
   createMesh() {
     const segment = 1;
 
-    this.geometry = new PlaneBufferGeometry(2, 2, segment, segment);
+    this.geometry = new PlaneGeometry(2, 2, segment, segment);
 
     // テクスチャの作成
     this.texture = this.createTexture({

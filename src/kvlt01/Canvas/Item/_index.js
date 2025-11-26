@@ -1,11 +1,14 @@
 'use strict';
 
 // 必要なクラスをimport
-import { Mesh } from 'three/src/objects/Mesh';
-import { PlaneBufferGeometry } from 'three/src/geometries/PlaneGeometry';
-import { RawShaderMaterial } from 'three/src/materials/RawShaderMaterial';
-import { CanvasTexture } from 'three/src/textures/CanvasTexture';
-import { LinearFilter, RGBAFormat } from 'three/src/constants';
+import {
+  CanvasTexture,
+  LinearFilter,
+  Mesh,
+  PlaneGeometry,
+  RawShaderMaterial,
+  RGBAFormat,
+} from 'three';
 import { gsap, Power3 } from 'gsap';
 
 import Tweakpane from 'tweakpane';
@@ -42,7 +45,7 @@ export default class Item extends Mesh {
     const height = params.height;
     const segment = 1;
 
-    this.geometry = new PlaneBufferGeometry(width, height, segment, segment);
+    this.geometry = new PlaneGeometry(width, height, segment, segment);
 
     const texture = this.createTexture({
       text: element.dataset.text,

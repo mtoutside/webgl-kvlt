@@ -126,10 +126,10 @@ export default class Canvas {
       this.scene.userData.controls = this.controls;
 
       this.geometories = [
-        new THREE.BoxBufferGeometry(1, 1, 1),
-        new THREE.SphereBufferGeometry(0.5, 12, 8),
-        new THREE.DodecahedronBufferGeometry(0.5),
-        new THREE.CylinderBufferGeometry(0.5, 0.5, 1, 12),
+        new THREE.BoxGeometry(1, 1, 1),
+        new THREE.SphereGeometry(0.5, 12, 8),
+        new THREE.DodecahedronGeometry(0.5),
+        new THREE.CylinderGeometry(0.5, 0.5, 1, 12),
       ];
 
       let geometoriesIndex = (this.geometories.length * Math.random()) | 0;

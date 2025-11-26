@@ -1,8 +1,7 @@
 'use strict';
 
 // 必要なクラスをimport
-import { Scene } from 'three/src/scenes/Scene';
-import { PerspectiveCamera } from 'three/src/cameras/PerspectiveCamera';
+import { PerspectiveCamera, Scene } from 'three';
 
 import Config from './_Config';
 import BaseCanvas from './_BaseCanvas';

@@ -18,7 +18,7 @@
     "gsap": "^3.12.5",
     "normalize-wheel": "^1.0.1",
     "regenerator-runtime": "^0.14.1",
-    "three": "^0.137.0",
+    "three": "^0.181.2",
     "tweakpane": "^1.6.1",
     "webfontloader": "^1.6.28"
   },
